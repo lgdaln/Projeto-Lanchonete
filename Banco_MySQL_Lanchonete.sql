@@ -34,7 +34,6 @@ pk_cod_produto INT PRIMARY KEY AUTO_INCREMENT,
 nome VARCHAR(200),
 disponibilidade VARCHAR(200),
 valor_unitario FLOAT,
-nome VARCHAR(200),
 fk_cod_tipo INT,
 foreign key(fk_cod_tipo) references Tipo(pk_cod_tipo)
 );
@@ -48,6 +47,18 @@ foreign key(fk_cod_produto) references Produto(pk_cod_produto)
 fk_cod_pedido INT,
 foreign key(fk_cod_pedido) references Pedido(pk_cod_pedido)
 );
+
+
+
+INSERT INTO  Tipo (pk_cod_tipo, descricao) VALUES ('1', 'Refeição');
+INSERT INTO  Tipo (pk_cod_tipo, descricao) VALUES ('2', 'Lanche');
+INSERT INTO  Tipo (pk_cod_tipo, descricao) VALUES ('3', 'Bebida');
+INSERT INTO  Tipo (pk_cod_tipo, descricao) VALUES ('4', 'Doce');
+INSERT INTO  Tipo (pk_cod_tipo, descricao) VALUES ('5', 'Salgado');
+
+INSERT INTO  Produto (pk_cod_produto, nome, disponibilidade, valor_unitario, nome, fk_cod_tipo, fk_cod_pedido) VALUES ('5', 'Salgado');
+
+
 
 
 

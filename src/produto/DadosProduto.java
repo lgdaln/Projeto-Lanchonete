@@ -59,4 +59,18 @@ public class DadosProduto extends conexao.ConexaoBanco {
         return retorno;
     }
 
+    public void removerProduto(Produto p) throws SQLException, Exception {
+        //instrucao a ser executada
+        String sql = "DELETE FROM produto WHERE pk_cod_produto = ? ";
+
+        //preparando a instrução
+        PreparedStatement preparedStatement = super.conectar().prepareStatement(sql);
+        //passando os valores para os parametros
+        preparedStatement.setInt(1, p.getCod_produto());
+        // execute insert SQL stetement
+        preparedStatement.executeUpdate();
+        //fechando a conexão com o banco de dados
+        super.desconectar();
+    }
+
 }

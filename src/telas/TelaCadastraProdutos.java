@@ -290,19 +290,21 @@ public class TelaCadastraProdutos extends javax.swing.JFrame {
         try {
             int linha = jtProdutos.getSelectedRow();
             int codigoTipo = (int) jtProdutos.getValueAt(linha, 0);
-            tipo.setCod_tipo(codigoTipo);
-            dadosTipo.removerTipo(tipo);
+            produto.setCod_produto(codigoTipo);
+            dadosProduto.removerProduto(produto);
 
         } catch (Exception e) {
         }
         limparCampos();
-        carregarTipos();
+        carregarProdutos();
 
 
     }//GEN-LAST:event_jbExcluirActionPerformed
 
     private void jbAtualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAtualizarActionPerformed
-        // TODO add your handling code here:
+        // Atualiza as duas palnilhas:
+        carregarTipos();
+        carregarProdutos();
 
     }//GEN-LAST:event_jbAtualizarActionPerformed
 
