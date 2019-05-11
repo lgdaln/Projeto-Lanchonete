@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/lgdal/Documents/NetBeansProjects/ProjetoLanchonete/src/cliente/Cliente.java</file>
-            <file>file:/C:/Users/lgdal/Documents/NetBeansProjects/ProjetoLanchonete/src/atendente/Atendente.java</file>
+            <file>file:/C:/Users/lgdal/Documents/NetBeansProjects/ProjetoLanchonete/src/produto/DadosProduto.java</file>
+            <file>file:/C:/Users/lgdal/Documents/NetBeansProjects/ProjetoLanchonete/src/produto/Produto.java</file>
+            <file>file:/C:/Users/lgdal/Documents/NetBeansProjects/ProjetoLanchonete/src/telas/TelaCadastraProdutos.java</file>
         </group>
     </open-files>
 </project-private>

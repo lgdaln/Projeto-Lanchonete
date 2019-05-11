@@ -30,7 +30,7 @@ public class ConexaoBanco {
     private final String LOCAL_SERVIDOR = "localhost";
 
     //private final String BANCO_DE_DADOS = "lanchonete";
-    private final String BANCO_DE_DADOS = "lanchonete";
+    private final String BANCO_DE_DADOS = "projetolanchonete";
 
     //private final String PORTA_BANCO = "1433";
     private final String PORTA_BANCO = "3306";
