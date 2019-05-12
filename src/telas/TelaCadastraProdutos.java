@@ -142,11 +142,11 @@ public class TelaCadastraProdutos extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tipos"
+                "Código", "Tipos"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false
+                false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -154,6 +154,11 @@ public class TelaCadastraProdutos extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(jtTipos);
+        if (jtTipos.getColumnModel().getColumnCount() > 0) {
+            jtTipos.getColumnModel().getColumn(0).setMinWidth(130);
+            jtTipos.getColumnModel().getColumn(0).setPreferredWidth(130);
+            jtTipos.getColumnModel().getColumn(0).setMaxWidth(130);
+        }
 
         jrbIndisponivel.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jrbIndisponivel.setForeground(new java.awt.Color(204, 204, 204));
@@ -265,13 +270,34 @@ public class TelaCadastraProdutos extends javax.swing.JFrame {
     private void jbCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCadastrarActionPerformed
         // TODO add your handling code here:
 
-        tipo.setDescricao(jtfProduto.getText());
+        produto.setNome(jtfProduto.getText());
+
+        if (jrbDisponivel.isSelected()) {
+            produto.setDisponibilidade("Sim");
+        } else {
+            produto.setDisponibilidade("Faltando");
+        }
+
+        produto.setValorUnitario(Double.valueOf(jtfPreco.getText()));
+
         try {
-            dadosTipo.cadastrarTipo(tipo);
+            int linha = jtTipos.getSelectedRow();
+            int codigoTipo = (int) jtTipos.getValueAt(linha, 0);
+            String descricao = (String) jtTipos.getValueAt(linha, 1);
+
+            tipo.setCod_tipo(codigoTipo);
+            tipo.setDescricao(descricao);
+
+            produto.setTipo(tipo);
+
+            dadosProduto.cadastrarProduto(produto);
+
         } catch (Exception ex) {
             Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         carregarTipos();
+        carregarProdutos();
         limparCampos();
 
 
@@ -364,9 +390,9 @@ public class TelaCadastraProdutos extends javax.swing.JFrame {
             DefaultTableModel modelo = new DefaultTableModel();
             ArrayList<Tipo> listaTipos = dadosTipo.listarTipo(tipo);
 
-            modelo.setColumnIdentifiers(new Object[]{"Descrição"});
+            modelo.setColumnIdentifiers(new Object[]{"Código", "Tipo"});
             for (Tipo t : listaTipos) {
-                modelo.addRow(new Object[]{t.getDescricao()});
+                modelo.addRow(new Object[]{t.getCod_tipo(), t.getDescricao()});
             }
             jtTipos.setModel(modelo);
 
