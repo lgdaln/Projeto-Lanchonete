@@ -5,10 +5,26 @@
  */
 package atendente;
 
+import cliente.Cliente;
+
 /**
  *
  * @author lgdal
  */
 public class RegrasAtendente {
-    
+
+    public void cadastrarAtendente(Atendente atendente) throws Exception {
+
+        DadosAtendente dadosAtendente = new DadosAtendente();
+        dadosAtendente.cadastrarAtendente(atendente);
+
+    }
+
+    public void ExcluirAtendente(Atendente atendente) throws Exception {
+
+        DadosAtendente dadosAtendente = new DadosAtendente();
+        dadosAtendente.excluirAtendente(atendente);
+
+    }
+
 }

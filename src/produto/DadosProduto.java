@@ -72,5 +72,24 @@ public class DadosProduto extends conexao.ConexaoBanco {
         //fechando a conexão com o banco de dados
         super.desconectar();
     }
+    
+        public void atualizarPrpoduto(Produto p) throws SQLException, Exception {
+        //instrucao a ser executada
+        String sql = "UPDATE produto SET nome = ?, disponibilidade = ?, valor_unitario = ?, fk_cod_tipo = ? WHERE pk_cod_produto = ? ";
+
+        //preparando a instrução
+        PreparedStatement preparedStatement = super.conectar().prepareStatement(sql);
+        //passando os valores para os parametros
+        preparedStatement.setString(1, p.getNome());
+        preparedStatement.setString(2, p.getDisponibilidade());
+        preparedStatement.setDouble(3, p.getValorUnitario());
+        preparedStatement.setInt(4, p.getTipo().getCod_tipo()); 
+        preparedStatement.setInt(5, p.getCod_produto());
+
+        // execute insert SQL stetement
+        preparedStatement.executeUpdate();
+        //fechando a conexão com o banco de dados
+        super.desconectar();
+    }
 
 }

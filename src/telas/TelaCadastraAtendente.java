@@ -5,32 +5,35 @@
  */
 package telas;
 
+import atendente.Atendente;
+import atendente.DadosAtendente;
+import atendente.RegrasAtendente;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import tipo.DadosTipo;
-import tipo.RegrasTipo;
-import tipo.Tipo;
+
+
 
 /**
  *
  * @author lgdal
  */
-public class TelaCadastraTipos extends javax.swing.JFrame {
+public class TelaCadastraAtendente extends javax.swing.JFrame {
 
-    Tipo tipo = new Tipo();
-    DadosTipo dadosTipo = new DadosTipo();
-    ArrayList<DadosTipo> listaDadosTipos = new ArrayList<>();
-    RegrasTipo regrasTipo = new RegrasTipo();
+   
+    Atendente atendente = new Atendente();
+    RegrasAtendente regrasAtendente = new RegrasAtendente();
+    DadosAtendente dadosAtendente = new DadosAtendente();
+    ArrayList<DadosAtendente> listaDadosAtendentes = new ArrayList<>();
+    
 
     /**
      * Creates new form TelaCadastraTipos
      */
-    public TelaCadastraTipos() {
+    public TelaCadastraAtendente() {
         initComponents();
-        carregarTipos();
+        carregarAtendentes();
     }
 
     /**
@@ -44,9 +47,9 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jtListaTipos = new javax.swing.JTable();
+        jtListaAtendentes = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jtfDescricao = new javax.swing.JTextField();
+        jtfNome = new javax.swing.JTextField();
         jBCadastrar = new javax.swing.JButton();
         jbCancelar = new javax.swing.JButton();
         jbExcluir = new javax.swing.JButton();
@@ -55,12 +58,12 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
-        jtListaTipos.setModel(new javax.swing.table.DefaultTableModel(
+        jtListaAtendentes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Código", "Descrição"
+                "Mat.", "Nome"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -71,19 +74,19 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(jtListaTipos);
-        if (jtListaTipos.getColumnModel().getColumnCount() > 0) {
-            jtListaTipos.getColumnModel().getColumn(0).setMinWidth(150);
-            jtListaTipos.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jtListaTipos.getColumnModel().getColumn(0).setMaxWidth(150);
+        jScrollPane1.setViewportView(jtListaAtendentes);
+        if (jtListaAtendentes.getColumnModel().getColumnCount() > 0) {
+            jtListaAtendentes.getColumnModel().getColumn(0).setMinWidth(150);
+            jtListaAtendentes.getColumnModel().getColumn(0).setPreferredWidth(150);
+            jtListaAtendentes.getColumnModel().getColumn(0).setMaxWidth(150);
         }
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Descrição:");
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel1.setText("Nome do Atendente:");
 
-        jtfDescricao.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtfNome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         jBCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-reproduzir-filled-36.png"))); // NOI18N
         jBCadastrar.setText("CADASTRA");
@@ -114,17 +117,20 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jtfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 416, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jBCadastrar)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jbExcluir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbCancelar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(286, 286, 286)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jBCadastrar)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jbExcluir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbCancelar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jtfNome)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -139,14 +145,14 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
                 .addGap(90, 90, 90)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtfDescricao, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(59, 59, 59)
                 .addComponent(jBCadastrar)
                 .addGap(48, 48, 48)
                 .addComponent(jbCancelar)
                 .addGap(49, 49, 49)
                 .addComponent(jbExcluir)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addGap(35, 127, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -168,13 +174,13 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
         // TODO add your handling code here:
 
-        tipo.setDescricao(jtfDescricao.getText());
+        atendente.setNome(jtfNome.getText());
         try {
-            regrasTipo.cadastrarTipo(tipo);
+            regrasAtendente.cadastrarAtendente(atendente);
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
         }
-        carregarTipos();
+        carregarAtendentes();
         limparCampos();
 
 
@@ -182,7 +188,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
         // TODO add your handling code here:
-        carregarTipos();
+        carregarAtendentes();
         limparCampos();
 
     }//GEN-LAST:event_jbCancelarActionPerformed
@@ -191,17 +197,20 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
         // TODO add your handling code here:
 
         try {
-            int linha = jtListaTipos.getSelectedRow();
-            int codigoTipo = (int) jtListaTipos.getValueAt(linha, 0);
-            tipo.setCod_tipo(codigoTipo);
-            regrasTipo.removerTipo(tipo);
+            int linha = jtListaAtendentes.getSelectedRow();
+            int codigoAtendente = (int) jtListaAtendentes.getValueAt(linha, 0);
+            String nome = (String) jtListaAtendentes.getValueAt(linha, 1);
+            atendente.setMatricula(codigoAtendente);
+            atendente.setNome(nome);
+            dadosAtendente.excluirAtendente(atendente);
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
         }
         limparCampos();
-        carregarTipos();
-
+        carregarAtendentes();
+        
+ 
 
     }//GEN-LAST:event_jbExcluirActionPerformed
 
@@ -222,20 +231,21 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraTipos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraAtendente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraTipos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraAtendente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraTipos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraAtendente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraTipos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraAtendente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaCadastraTipos().setVisible(true);
+                new TelaCadastraAtendente().setVisible(true);
             }
         });
     }
@@ -243,21 +253,21 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
     /**
      * Carregar os tipos do banco na tela
      */
-    private void carregarTipos() {
+    private void carregarAtendentes() {
 
         try {
-            Tipo tipo = new Tipo();
+            Atendente atendente = new Atendente();
             DefaultTableModel modelo = new DefaultTableModel();
-            ArrayList<Tipo> listaTipos = dadosTipo.listarTipo(tipo);
+            ArrayList<Atendente> listaAtendentes = dadosAtendente.listarAtendentes(atendente);
 
-            modelo.setColumnIdentifiers(new Object[]{"Código", "Descrição"});
-            for (Tipo t : listaTipos) {
-                modelo.addRow(new Object[]{t.getCod_tipo(), t.getDescricao()});
+            modelo.setColumnIdentifiers(new Object[]{"Mat.", "Nome"});
+            for (Atendente a : listaAtendentes) {
+                modelo.addRow(new Object[]{a.getMatricula(), a.getNome()});
             }
-            jtListaTipos.setModel(modelo);
+            jtListaAtendentes.setModel(modelo);
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
@@ -267,7 +277,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
         Limpa o campo para a próxima ação.
      */
     private void limparCampos() {
-        jtfDescricao.setText("");
+        jtfNome.setText("");
 
     }
 
@@ -278,7 +288,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton jbCancelar;
     private javax.swing.JButton jbExcluir;
-    private javax.swing.JTable jtListaTipos;
-    private javax.swing.JTextField jtfDescricao;
+    private javax.swing.JTable jtListaAtendentes;
+    private javax.swing.JTextField jtfNome;
     // End of variables declaration//GEN-END:variables
 }

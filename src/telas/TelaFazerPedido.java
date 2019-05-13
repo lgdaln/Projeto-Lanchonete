@@ -13,15 +13,21 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.Date;
-
+import javax.swing.SwingConstants;
+import produto.DadosProduto;
+import produto.Produto;
+import produto.RegrasProduto;
+import tipo.Tipo;
 
 public class TelaFazerPedido extends javax.swing.JFrame {
-    
+
     DadosCliente dadosCliente = new DadosCliente();
     Cliente cliente = new Cliente();
     RegrasCliente regrasCliente = new RegrasCliente();
 
-
+    DadosProduto dadosProduto = new DadosProduto();
+    Produto produto = new Produto();
+    RegrasProduto regrasProduto = new RegrasProduto();
 
     private static void addRow(Object[] object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -30,9 +36,15 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     public TelaFazerPedido() {
         initComponents();
         setLocationRelativeTo(null);
+        CarregarProdutos();
+
+        jbIncluir.setVerticalTextPosition(SwingConstants.BOTTOM);
+        jbIncluir.setHorizontalTextPosition(SwingConstants.CENTER);
+        jbRetirar.setVerticalTextPosition(SwingConstants.BOTTOM);
+        jbRetirar.setHorizontalTextPosition(SwingConstants.CENTER);
+
         //habilitarDesabilitarCampos(false);
         //mensagem();
-
     }
 
     /**
@@ -205,8 +217,15 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         });
 
         jbIncluir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-avançar-50.png"))); // NOI18N
+        jbIncluir.setText("INCLUIR");
+        jbIncluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbIncluirActionPerformed(evt);
+            }
+        });
 
         jbRetirar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-voltar-50.png"))); // NOI18N
+        jbRetirar.setText("EXCLUIR");
 
         jtPedido.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtPedido.setModel(new javax.swing.table.DefaultTableModel(
@@ -358,54 +377,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
     private void jbAtualizarCardapioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAtualizarCardapioActionPerformed
         // Atualiza o cardápio e preços na tela de pedidos:
-        
-        /*
-        
-        try {
-
-            modelCardapio = dadosCardapio.ListarCardapio(cardapio);
-        } catch (Exception ex) {
-            Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        //Carregar o cardápio na tela do banco de dados       
-        jtf1.removeAll();
-        jtf1.setText(modelCardapio.get(0).getNome_cardapio());
-        jtfValor1.setText(String.valueOf(modelCardapio.get(0).getValor_cardapio()));
-
-        jtf2.removeAll();
-        jtf2.setText(modelCardapio.get(1).getNome_cardapio());
-        jtfValor2.setText(String.valueOf(modelCardapio.get(1).getValor_cardapio()));
-
-        jtf3.removeAll();
-        jtf3.setText(modelCardapio.get(2).getNome_cardapio());
-        jtfValor3.setText(String.valueOf(modelCardapio.get(2).getValor_cardapio()));
-
-        jtf4.removeAll();
-        jtf4.setText(modelCardapio.get(3).getNome_cardapio());
-        jtfValor4.setText(String.valueOf(modelCardapio.get(3).getValor_cardapio()));
-
-        jtf5.removeAll();
-        jtf5.setText(modelCardapio.get(4).getNome_cardapio());
-        jtfValor5.setText(String.valueOf(modelCardapio.get(4).getValor_cardapio()));
-
-        jtf6.removeAll();
-        jtf6.setText(modelCardapio.get(5).getNome_cardapio());
-        jtfValor6.setText(String.valueOf(modelCardapio.get(5).getValor_cardapio()));
-
-        jtf7.removeAll();
-        jtf7.setText(modelCardapio.get(6).getNome_cardapio());
-        jtfValor7.setText(String.valueOf(modelCardapio.get(6).getValor_cardapio()));
-
-        jtf8.removeAll();
-        jtf8.setText(modelCardapio.get(7).getNome_cardapio());
-        jtfValor8.setText(String.valueOf(modelCardapio.get(7).getValor_cardapio()));
-
-        jtf9.removeAll();
-        jtf9.setText(modelCardapio.get(8).getNome_cardapio());
-        jtfValor9.setText(String.valueOf(modelCardapio.get(8).getValor_cardapio()));
-        
-        
-        */
+        CarregarProdutos();
 
 
     }//GEN-LAST:event_jbAtualizarCardapioActionPerformed
@@ -435,56 +407,18 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
     private void jbFinalizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarPedidoActionPerformed
         // Salva as informações do pedido no banco de dados:
-        
+
         cliente.setNome(jtfNome.getText());
         cliente.setCpf(jtfCPF.getText());
-        
+
         try {
             regrasCliente.cadastrarCliente(cliente);
 
         } catch (Exception ex) {
             Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
-        
-            
-            
-            /*
-            
-            Pedido pedido = new Pedido();
-            venda = new Venda();
-            
-            //Cadastra o cliente que irá fazer o pedido
-            modelCliente.setNome(jtfNome.getText());
-            try {
-            dadosCliente.cadastrarCliente(modelCliente);
-            pedido.setCod_cliente(dadosCliente.retornaIdCliente());
+        }
 
-            // Cadastra o pedido na tabela pedido do banco de dados
-            int cont = jtPedido.getRowCount();
-            for (int i = 0; i < cont; i++) {
-            pedido.setDescricao((String) jtPedido.getValueAt(i, 0));
-            pedido.setCod_cliente(dadosCliente.retornaIdCliente());
-            pedido.setData(converterDataParaDateUS(new java.util.Date(System.currentTimeMillis())));
-            venda.setValor((Double) jtPedido.getValueAt(i, 1));
-            dadosPedido.cadastrarPedido(pedido);
-            pedido.setCod(dadosPedido.retornaIdPedido());
-            
-            dadosVenda.registrarVenda(pedido, venda);
-            }
-            JOptionPane.showMessageDialog(this, "Pedido finalizado", "INFORMAÇÃO", JOptionPane.INFORMATION_MESSAGE);
-            
-            } catch (Exception ex) {
-            Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, "Problema no pedido. Tente novamente", "ERRO", JOptionPane.ERROR);
-            }
-            
-            limparCampos();
-            habilitarDesabilitarCampos(false);
-            
-            */
-      
-       
+
 
     }//GEN-LAST:event_jbFinalizarPedidoActionPerformed
 
@@ -495,6 +429,56 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
+        // TODO add your handling code here:
+        try {
+            int quantidade = 1;
+
+            //Salva a descrição e o valor do produto da linha selecionada na tabela produto.
+            int linhaProduto = jtProdutos.getSelectedRow();
+            String descricao = (String) jtProdutos.getValueAt(linhaProduto, 0);
+            double valorProduto = (double) jtProdutos.getValueAt(linhaProduto, 1);
+
+            //Compara o produto selecionado com os itens do pedido.
+            int linhas = jtPedido.getRowCount();
+            int colunas = jtPedido.getColumnCount();
+
+            if ((linhas != 0) && (colunas != 0)) {
+                for (int i = 0; i < linhas; i++) {
+                    String descricaoPedido = (String) jtPedido.getValueAt(i, 1);
+                    
+                    if (descricao.equals(descricaoPedido)) {
+                        jtPedido.getSelectionModel().addSelectionInterval(i, i);
+                        quantidade = quantidade + 1;
+                        JOptionPane.showMessageDialog(this, "São iguais", "ERRO", JOptionPane.ERROR_MESSAGE);
+                        ((DefaultTableModel)jtPedido.getModel()).removeRow(i);
+                    }
+                    break;
+                }
+
+            }
+
+            DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
+
+            //Inserindo uma nova linha na tabela
+            int cont = 0;
+            for (int i = 0; i < cont; i++) {
+                modelo.setNumRows(0);
+            }
+
+            //Inseri o produto selecionado na tabela Pedido.
+            modelo.setColumnIdentifiers(new Object[]{"Quant", "Descrição", "Valor(R$)"});
+            modelo.addRow(new Object[]{quantidade, descricao, valorProduto});
+            jtPedido.setModel(modelo);
+            
+            somarValorTotal();
+
+        } catch (Exception ex) {
+            Logger.getLogger(TelaCadastraProdutos1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_jbIncluirActionPerformed
 
     /**
      * Converte data tipo date para o formato americano yyyy/MM/dd também tipo
@@ -520,7 +504,6 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         }
         return date;
     }
-
 
     /**
      * @param args the command line arguments
@@ -627,7 +610,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         double soma = 0;
         int cont = jtPedido.getRowCount();
         for (int i = 0; i < cont; i++) {
-            double valor = (double) jtPedido.getValueAt(i, 1);
+            double valor = (double) jtPedido.getValueAt(i, 2);
             soma += valor;
         }
         jtValorTotal.setText(String.valueOf(soma));
@@ -637,7 +620,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
      * Vai adicionando itens na lista
      */
     private void adicionarItensaoPedido() {
-        
+
         /*
         
         DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
@@ -654,29 +637,49 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             cardapio1.getValor_cardapio()
         });
         
-        */
-        
+         */
     }
 
     /*
     Limpa os dados da tela e da tabela.
-    */
+     */
     private void limparCampos() {
         jtfNome.setText("");
         jtValorTotal.setText("");
+        jtfCPF.setText("");
 
         DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
         modelo.setNumRows(0);
 
     }
 
-   
+    private void CarregarProdutos() {
+        try {
+            Produto produto = new Produto();
+            DadosProduto dadosProduto = new DadosProduto();
+            ArrayList<Produto> listaProdutos = new ArrayList<>();
+
+            listaProdutos = dadosProduto.listar(produto);
+
+            DefaultTableModel modelo = new DefaultTableModel();
+            modelo.setColumnIdentifiers(new Object[]{"Descrição", "Valor(R$)"});
+            for (Produto p : listaProdutos) {
+                modelo.addRow(new Object[]{p.getNome(), p.getValorUnitario()});
+            }
+
+            jtProdutos.setModel(modelo);
+
+        } catch (Exception e) {
+        }
+    }
+
     /**
      * Habilita(true)/Desabilita(false) campos da tela.
-     * @param condicao 
+     *
+     * @param condicao
      */
     private void habilitarDesabilitarCampos(boolean condicao) {
-        
+
         /*
         jbProduto1.setEnabled(condicao);
         jbProduto2.setEnabled(condicao);
@@ -690,8 +693,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         jbFinalizarPedido.setEnabled(condicao);
         jbDeletarItem.setEnabled(condicao);
 
-*/
-
+         */
     }
 
     private void mensagem() {
@@ -724,4 +726,5 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jtfCPF;
     private javax.swing.JTextField jtfNome;
     // End of variables declaration//GEN-END:variables
+
 }
