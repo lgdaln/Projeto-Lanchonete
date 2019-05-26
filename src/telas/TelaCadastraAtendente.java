@@ -89,7 +89,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
         jtfNome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
 
         jBCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-reproduzir-filled-36.png"))); // NOI18N
-        jBCadastrar.setText("CADASTRA");
+        jBCadastrar.setText("CADASTRAR");
         jBCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jBCadastrarActionPerformed(evt);
@@ -131,7 +131,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jtfNome)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -172,7 +172,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        // TODO add your handling code here:
+        // Ações para o botão cadastrar:
 
         atendente.setNome(jtfNome.getText());
         try {
@@ -194,7 +194,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
-        // TODO add your handling code here:
+        // Açõe para o botão excluir:
 
         try {
             int linha = jtListaAtendentes.getSelectedRow();
@@ -251,14 +251,14 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
     }
 
     /**
-     * Carregar os tipos do banco na tela
+     * Carregar todos os atendentes na tela.
      */
     private void carregarAtendentes() {
 
         try {
             Atendente atendente = new Atendente();
             DefaultTableModel modelo = new DefaultTableModel();
-            ArrayList<Atendente> listaAtendentes = dadosAtendente.listarAtendentes(atendente);
+            ArrayList<Atendente> listaAtendentes = dadosAtendente.listarAtendentes();
 
             modelo.setColumnIdentifiers(new Object[]{"Mat.", "Nome"});
             for (Atendente a : listaAtendentes) {
@@ -274,7 +274,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
     }
 
     /*
-        Limpa o campo para a próxima ação.
+        Limpa os campos da tela.
      */
     private void limparCampos() {
         jtfNome.setText("");

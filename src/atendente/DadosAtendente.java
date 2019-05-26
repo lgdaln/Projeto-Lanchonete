@@ -34,7 +34,7 @@ public class DadosAtendente extends conexao.ConexaoBanco {
 
     }
 
-    public ArrayList<Atendente> listarAtendentes(Atendente atendente) throws Exception {
+    public ArrayList<Atendente> listarAtendentes() throws Exception {
 
         ArrayList<Atendente> listaAtendente = new ArrayList<>();
 
@@ -42,15 +42,7 @@ public class DadosAtendente extends conexao.ConexaoBanco {
         String sql = " select pk_matricula, nome";
         sql += " from atendente ";
         sql += " where atendente.pk_matricula > 0 ";
-        if (atendente.getMatricula() > 0) {
-            sql += " and atendente.pk_matricula = ? ";
-        }
-        //preparando a instrução
         PreparedStatement preparedStatement = super.conectar().prepareStatement(sql);
-
-        if (atendente.getMatricula() > 0) {
-            preparedStatement.setInt(1, atendente.getMatricula());
-        }
         //executando a instrução sql
         ResultSet leitor = preparedStatement.executeQuery();
         //lendo os resultados
@@ -58,7 +50,6 @@ public class DadosAtendente extends conexao.ConexaoBanco {
             Atendente a = new Atendente();
             a.setMatricula(leitor.getInt("pk_matricula"));
             a.setNome(leitor.getString("nome"));
-
             listaAtendente.add(a);
         }
         //fechando a conexão com o banco de dados

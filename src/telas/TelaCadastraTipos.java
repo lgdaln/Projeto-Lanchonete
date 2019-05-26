@@ -8,7 +8,6 @@ package telas;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import tipo.DadosTipo;
 import tipo.RegrasTipo;
@@ -166,7 +165,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        // TODO add your handling code here:
+        // Ações para o botão cadastrar:
 
         tipo.setDescricao(jtfDescricao.getText());
         try {
@@ -181,20 +180,20 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
     }//GEN-LAST:event_jBCadastrarActionPerformed
 
     private void jbCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarActionPerformed
-        // TODO add your handling code here:
+        // Ações para o botão cancelar:
         carregarTipos();
         limparCampos();
 
     }//GEN-LAST:event_jbCancelarActionPerformed
 
     private void jbExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbExcluirActionPerformed
-        // TODO add your handling code here:
+        // Ações para o botão excluir:
 
         try {
             int linha = jtListaTipos.getSelectedRow();
             int codigoTipo = (int) jtListaTipos.getValueAt(linha, 0);
             tipo.setCod_tipo(codigoTipo);
-            regrasTipo.removerTipo(tipo);
+            dadosTipo.removerTipo(tipo);
 
         } catch (Exception ex) {
             Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
@@ -241,14 +240,14 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
     }
 
     /**
-     * Carregar os tipos do banco na tela
+     * Carregar os tipos do banco na tela.
      */
     private void carregarTipos() {
 
         try {
             Tipo tipo = new Tipo();
             DefaultTableModel modelo = new DefaultTableModel();
-            ArrayList<Tipo> listaTipos = dadosTipo.listarTipo(tipo);
+            ArrayList<Tipo> listaTipos = dadosTipo.listarTipo();
 
             modelo.setColumnIdentifiers(new Object[]{"Código", "Descrição"});
             for (Tipo t : listaTipos) {

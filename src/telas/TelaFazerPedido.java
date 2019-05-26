@@ -1,8 +1,10 @@
 package telas;
 
+import atendente.Atendente;
 import cliente.Cliente;
 import cliente.DadosCliente;
 import cliente.RegrasCliente;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,6 +16,9 @@ import javax.swing.table.DefaultTableModel;
 
 import java.util.Date;
 import javax.swing.SwingConstants;
+import pedido.DadosPedido;
+import pedido.Pedido;
+import pedido.RegrasPedido;
 import produto.DadosProduto;
 import produto.Produto;
 import produto.RegrasProduto;
@@ -37,14 +42,15 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         CarregarProdutos();
+        
+        //Coloca os nomes sob os icones dos botões centrais.
 
         jbIncluir.setVerticalTextPosition(SwingConstants.BOTTOM);
         jbIncluir.setHorizontalTextPosition(SwingConstants.CENTER);
         jbRetirar.setVerticalTextPosition(SwingConstants.BOTTOM);
         jbRetirar.setHorizontalTextPosition(SwingConstants.CENTER);
 
-        //habilitarDesabilitarCampos(false);
-        //mensagem();
+
     }
 
     /**
@@ -62,12 +68,8 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         jbAtualizarCardapio = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jtProdutos = new javax.swing.JTable();
-        jbAtualizarCardapio1 = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
-        jNomeCliente = new javax.swing.JLabel();
-        jtfNome = new javax.swing.JTextField();
-        jtfCPF = new javax.swing.JFormattedTextField();
-        jNomeCliente1 = new javax.swing.JLabel();
+        jtfObservacao = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
         jbFinalizarPedido = new javax.swing.JButton();
         jbCancelarPedido = new javax.swing.JButton();
         jbIncluir = new javax.swing.JButton();
@@ -77,7 +79,11 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jtValorTotal = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
-        jbIniciarPedido = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jNomeCliente = new javax.swing.JLabel();
+        jtfNome = new javax.swing.JTextField();
+        jtfCPF = new javax.swing.JFormattedTextField();
+        jNomeCliente1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("TELA DE PEDIDO");
@@ -101,11 +107,11 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Descrição", "Valor(R$)"
+                "Cod.", "Descrição", "Valor(R$)"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -114,88 +120,46 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         });
         jScrollPane3.setViewportView(jtProdutos);
         if (jtProdutos.getColumnModel().getColumnCount() > 0) {
-            jtProdutos.getColumnModel().getColumn(1).setMinWidth(200);
-            jtProdutos.getColumnModel().getColumn(1).setPreferredWidth(200);
-            jtProdutos.getColumnModel().getColumn(1).setMaxWidth(200);
+            jtProdutos.getColumnModel().getColumn(0).setMinWidth(100);
+            jtProdutos.getColumnModel().getColumn(0).setPreferredWidth(100);
+            jtProdutos.getColumnModel().getColumn(0).setMaxWidth(100);
+            jtProdutos.getColumnModel().getColumn(2).setMinWidth(200);
+            jtProdutos.getColumnModel().getColumn(2).setPreferredWidth(200);
+            jtProdutos.getColumnModel().getColumn(2).setMaxWidth(200);
         }
 
-        jbAtualizarCardapio1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
-        jbAtualizarCardapio1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-actualizar-40.png"))); // NOI18N
-        jbAtualizarCardapio1.setText("ATUALIZAR LISTA");
-        jbAtualizarCardapio1.addActionListener(new java.awt.event.ActionListener() {
+        jtfObservacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbAtualizarCardapio1ActionPerformed(evt);
+                jtfObservacaoActionPerformed(evt);
             }
         });
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel2.setText("OBSERVAÇÃO:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jbAtualizarCardapio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 556, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jbAtualizarCardapio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+            .addComponent(jtfObservacao)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jLabel2)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jbAtualizarCardapio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel2Layout.createSequentialGroup()
-                    .addGap(10, 10, 10)
-                    .addComponent(jbAtualizarCardapio1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(673, Short.MAX_VALUE)))
-        );
-
-        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
-
-        jNomeCliente.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jNomeCliente.setForeground(new java.awt.Color(255, 255, 255));
-        jNomeCliente.setText("NOME:");
-
-        jtfNome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtfNomeActionPerformed(evt);
-            }
-        });
-
-        jNomeCliente1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jNomeCliente1.setForeground(new java.awt.Color(255, 255, 255));
-        jNomeCliente1.setText("CPF:");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jNomeCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jtfNome, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
-                    .addComponent(jtfCPF))
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(33, 33, 33)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jtfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jNomeCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 528, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtfObservacao, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
 
         jbFinalizarPedido.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -226,6 +190,11 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
         jbRetirar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-voltar-50.png"))); // NOI18N
         jbRetirar.setText("EXCLUIR");
+        jbRetirar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbRetirarActionPerformed(evt);
+            }
+        });
 
         jtPedido.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jtPedido.setModel(new javax.swing.table.DefaultTableModel(
@@ -233,11 +202,11 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Quant", "Descrição", "Valor(R$)"
+                "Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -246,12 +215,21 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jtPedido);
         if (jtPedido.getColumnModel().getColumnCount() > 0) {
-            jtPedido.getColumnModel().getColumn(0).setMinWidth(70);
-            jtPedido.getColumnModel().getColumn(0).setPreferredWidth(70);
-            jtPedido.getColumnModel().getColumn(0).setMaxWidth(70);
-            jtPedido.getColumnModel().getColumn(2).setMinWidth(200);
-            jtPedido.getColumnModel().getColumn(2).setPreferredWidth(200);
-            jtPedido.getColumnModel().getColumn(2).setMaxWidth(200);
+            jtPedido.getColumnModel().getColumn(0).setMinWidth(55);
+            jtPedido.getColumnModel().getColumn(0).setPreferredWidth(55);
+            jtPedido.getColumnModel().getColumn(0).setMaxWidth(55);
+            jtPedido.getColumnModel().getColumn(1).setMinWidth(70);
+            jtPedido.getColumnModel().getColumn(1).setPreferredWidth(70);
+            jtPedido.getColumnModel().getColumn(1).setMaxWidth(70);
+            jtPedido.getColumnModel().getColumn(2).setMinWidth(250);
+            jtPedido.getColumnModel().getColumn(2).setPreferredWidth(250);
+            jtPedido.getColumnModel().getColumn(2).setMaxWidth(250);
+            jtPedido.getColumnModel().getColumn(3).setMinWidth(65);
+            jtPedido.getColumnModel().getColumn(3).setPreferredWidth(65);
+            jtPedido.getColumnModel().getColumn(3).setMaxWidth(65);
+            jtPedido.getColumnModel().getColumn(4).setMinWidth(65);
+            jtPedido.getColumnModel().getColumn(4).setPreferredWidth(65);
+            jtPedido.getColumnModel().getColumn(4).setMaxWidth(65);
         }
 
         jLabel1.setBackground(java.awt.Color.white);
@@ -275,97 +253,118 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             }
         });
 
-        jbIniciarPedido.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jbIniciarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-reproduzir-filled-36.png"))); // NOI18N
-        jbIniciarPedido.setText("INICIAR PEDIDO");
-        jbIniciarPedido.addActionListener(new java.awt.event.ActionListener() {
+        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
+
+        jNomeCliente.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jNomeCliente.setForeground(new java.awt.Color(255, 255, 255));
+        jNomeCliente.setText("NOME:");
+
+        jtfNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbIniciarPedidoActionPerformed(evt);
+                jtfNomeActionPerformed(evt);
             }
         });
+
+        jNomeCliente1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jNomeCliente1.setForeground(new java.awt.Color(255, 255, 255));
+        jNomeCliente1.setText("CPF:");
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtfNome)
+                .addGap(43, 43, 43)
+                .addComponent(jNomeCliente1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jtfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jNomeCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtfCPF, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jNomeCliente1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jbIniciarPedido)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jbIncluir)
-                            .addComponent(jbRetirar))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jbCancelarPedido)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jbFinalizarPedido))
-                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jbIncluir)
+                                    .addComponent(jbRetirar))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jbCancelarPedido)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jbFinalizarPedido))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(240, 240, 240)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addContainerGap()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(267, 267, 267)
+                                .addGap(196, 196, 196)
                                 .addComponent(jbIncluir)
                                 .addGap(62, 62, 62)
                                 .addComponent(jbRetirar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(26, 26, 26)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 536, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(37, 37, 37)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbFinalizarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jbCancelarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbIniciarPedido)
-                        .addContainerGap())))
+                            .addComponent(jbCancelarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jbFinalizarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 761, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 8, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -374,26 +373,6 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     private void jtfNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfNomeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jtfNomeActionPerformed
-
-    private void jbAtualizarCardapioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAtualizarCardapioActionPerformed
-        // Atualiza o cardápio e preços na tela de pedidos:
-        CarregarProdutos();
-
-
-    }//GEN-LAST:event_jbAtualizarCardapioActionPerformed
-
-    private void jbIniciarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIniciarPedidoActionPerformed
-        //Habilita os campos para a entrada do pedido e Solicita que um nome seja inserido antes de iniciar o pedido.
-
-        if (jtfNome.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Entrar com seu nome antes de aperta o botão iniciar pedido", "ATENÇÃO", JOptionPane.WARNING_MESSAGE);
-
-        } else {
-            habilitarDesabilitarCampos(true);
-        }
-
-
-    }//GEN-LAST:event_jbIniciarPedidoActionPerformed
 
     private void jtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtValorTotalActionPerformed
         // TODO add your handling code here:
@@ -408,23 +387,56 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     private void jbFinalizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarPedidoActionPerformed
         // Salva as informações do pedido no banco de dados:
 
-        cliente.setNome(jtfNome.getText());
-        cliente.setCpf(jtfCPF.getText());
-
         try {
+
+            Pedido pedido = new Pedido();
+            DadosPedido dadosPedido = new DadosPedido();
+            Atendente atendente = new Atendente();
+            
+            RegrasPedido regrasPedido = new RegrasPedido();                   
+
+            pedido.setData(converterDataParaDateUS(new java.util.Date(System.currentTimeMillis())));
+
+            pedido.setObservacao(jtfObservacao.getText());
+
+            cliente.setNome(jtfNome.getText());
+            cliente.setCpf(jtfCPF.getText());
+
             regrasCliente.cadastrarCliente(cliente);
+
+            int id = dadosCliente.retornaIdCliente();
+            cliente.setCod_cliente(id);
+
+            pedido.setCliente(cliente);
+
+            int linhas = jtPedido.getRowCount();
+
+            for (int i = 0; i < linhas; i++) {
+                pedido.setObservacao((String) jtPedido.getValueAt(i, 5));
+                pedido.setQuantidade((int) jtPedido.getValueAt(i, 1));
+                
+                produto.setCod_produto((int) jtPedido.getValueAt(i, 0));
+                produto.setNome((String) jtPedido.getValueAt(i, 2));
+                produto.setValorUnitario((double) jtPedido.getValueAt(i, 3));
+
+                pedido.setProduto(produto);
+                
+                //Assim que o pedido é criado, o atendente é setado com a chave 1 = SEM ATENDENTE.
+                atendente.setMatricula(1);
+                
+                pedido.setAtendente(atendente);
+                
+                regrasPedido.cadastraPedido(pedido);
+
+
+            }
 
         } catch (Exception ex) {
             Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
-
     }//GEN-LAST:event_jbFinalizarPedidoActionPerformed
-
-    private void jbAtualizarCardapio1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAtualizarCardapio1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jbAtualizarCardapio1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -432,32 +444,155 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
     private void jbIncluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIncluirActionPerformed
         // TODO add your handling code here:
+        Pedido pedido = new Pedido();
+        DadosPedido dadosPedido = new DadosPedido();
+
+        int quantidade = 0;
+        int controlador = 0;
+
         try {
-            int quantidade = 1;
 
-            //Salva a descrição e o valor do produto da linha selecionada na tabela produto.
-            int linhaProduto = jtProdutos.getSelectedRow();
-            String descricao = (String) jtProdutos.getValueAt(linhaProduto, 0);
-            double valorProduto = (double) jtProdutos.getValueAt(linhaProduto, 1);
-
-            //Compara o produto selecionado com os itens do pedido.
             int linhas = jtPedido.getRowCount();
-            int colunas = jtPedido.getColumnCount();
 
-            if ((linhas != 0) && (colunas != 0)) {
+            if (linhas == 0) {
+                int linha = jtProdutos.getSelectedRow();
+
+                produto.setCod_produto((int) jtProdutos.getValueAt(linha, 0));
+                produto.setNome((String) jtProdutos.getValueAt(linha, 1));
+                double valoratual = (double) jtProdutos.getValueAt(linha, 2);
+                pedido.setValorAtual(valoratual);
+
+                pedido.setProduto(produto);
+
+                quantidade = 1;
+
+                double valorTotal = quantidade * valoratual;
+
+                DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
+
+                //Inserindo uma nova linha na tabela
+                int cont = 0;
+                for (int i = 0; i < cont; i++) {
+                    modelo.setNumRows(0);
+                }
+
+                //Inseri o produto selecionado na tabela Pedido.
+                modelo.setColumnIdentifiers(new Object[]{"Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."});
+                modelo.addRow(new Object[]{pedido.getProduto().getCod_produto(), quantidade, pedido.getProduto().getNome(), pedido.getValorAtual(), valorTotal, jtfObservacao.getText()});
+                jtPedido.setModel(modelo);
+                somarValorTotal();
+                //fim do se
+            }
+
+            if (linhas != 0) {
+                int linha = jtProdutos.getSelectedRow();
+                produto.setCod_produto((int) jtProdutos.getValueAt(linha, 0));
+                produto.setNome((String) jtProdutos.getValueAt(linha, 1));
+                pedido.setValorAtual((double) jtProdutos.getValueAt(linha, 2));
+                pedido.setProduto(produto);
+
+                String produtoSelecionado = pedido.getProduto().getNome();
+                linhas = jtPedido.getRowCount();
+
                 for (int i = 0; i < linhas; i++) {
-                    String descricaoPedido = (String) jtPedido.getValueAt(i, 1);
-                    
-                    if (descricao.equals(descricaoPedido)) {
-                        jtPedido.getSelectionModel().addSelectionInterval(i, i);
+                    String produtoPedido = (String) jtPedido.getValueAt(i, 2);
+                    if (produtoSelecionado.equals(produtoPedido)) {
+                        controlador = 1;
+                        quantidade = (int) jtPedido.getValueAt(i, 1);
                         quantidade = quantidade + 1;
-                        JOptionPane.showMessageDialog(this, "São iguais", "ERRO", JOptionPane.ERROR_MESSAGE);
-                        ((DefaultTableModel)jtPedido.getModel()).removeRow(i);
+
+                        double valorTotal = quantidade * pedido.getValorAtual();
+
+                        jtPedido.getSelectionModel().addSelectionInterval(i, i);
+                        ((DefaultTableModel) jtPedido.getModel()).removeRow(i);
+
+                        DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
+                        //Inserindo uma nova linha na tabela
+                        int cont = 0;
+                        for (int j = 0; j < cont; j++) {
+                            modelo.setNumRows(0);
+                        }
+                        //Inseri o produto selecionado na tabela Pedido.
+                        modelo.setColumnIdentifiers(new Object[]{"Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."});
+                        modelo.addRow(new Object[]{pedido.getProduto().getCod_produto(), quantidade, pedido.getProduto().getNome(), pedido.getValorAtual(), valorTotal, jtfObservacao.getText()});
+                        jtPedido.setModel(modelo);
+                        somarValorTotal();
+
+                        break;
+
                     }
-                    break;
+
+                }
+
+                if ((controlador != 1)) {
+                    linha = jtProdutos.getSelectedRow();
+
+                    produto.setCod_produto((int) jtProdutos.getValueAt(linha, 0));
+                    produto.setNome((String) jtProdutos.getValueAt(linha, 1));
+                    pedido.setValorAtual((double) jtProdutos.getValueAt(linha, 2));
+
+                    pedido.setProduto(produto);
+
+                    quantidade = 1;
+
+                    DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
+
+                    //Inserindo uma nova linha na tabela
+                    int cont = 0;
+                    for (int i = 0; i < cont; i++) {
+                        modelo.setNumRows(0);
+                    }
+
+                    //Inseri o produto selecionado na tabela Pedido.
+                    modelo.setColumnIdentifiers(new Object[]{"Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."});
+                    modelo.addRow(new Object[]{pedido.getProduto().getCod_produto(), quantidade, pedido.getProduto().getNome(), pedido.getValorAtual(), pedido.getValorAtual(), jtfObservacao.getText()});
+                    jtPedido.setModel(modelo);
+                    somarValorTotal();
                 }
 
             }
+            
+            jtfObservacao.setText("");
+
+        
+        } catch (Exception ex) {
+            Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+
+    }//GEN-LAST:event_jbIncluirActionPerformed
+
+    private void jbAtualizarCardapioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAtualizarCardapioActionPerformed
+        // Atualiza o cardápio e preços na tela de pedidos:
+        CarregarProdutos();
+    }//GEN-LAST:event_jbAtualizarCardapioActionPerformed
+
+    private void jtfObservacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtfObservacaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jtfObservacaoActionPerformed
+
+    private void jbRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRetirarActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel deletaItem = (DefaultTableModel) jtPedido.getModel();
+        int linha = jtPedido.getSelectedRow();
+
+        int quantidade = (int) jtPedido.getValueAt(linha, 1);
+
+        if (quantidade == 1) {
+            jtPedido.removeRowSelectionInterval(linha, linha);
+        }
+        if (quantidade != 1) {
+            
+            
+            int codProduto = (int) jtPedido.getValueAt(linha, 0);
+            int quantidadePedido = (int) jtPedido.getValueAt(linha, 1);
+            String nomePedido = (String) jtPedido.getValueAt(linha, 2);
+            Double valorPedido = (Double) jtPedido.getValueAt(linha, 3);
+            String obs = (String) jtPedido.getValueAt(linha, 5);
+
+            quantidadePedido = quantidadePedido - 1;
+            
+            Double total = quantidadePedido * valorPedido;
 
             DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
 
@@ -468,17 +603,19 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             }
 
             //Inseri o produto selecionado na tabela Pedido.
-            modelo.setColumnIdentifiers(new Object[]{"Quant", "Descrição", "Valor(R$)"});
-            modelo.addRow(new Object[]{quantidade, descricao, valorProduto});
-            jtPedido.setModel(modelo);
-            
-            somarValorTotal();
+                    modelo.setColumnIdentifiers(new Object[]{"Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."});
+                    modelo.addRow(new Object[]{codProduto, quantidadePedido, nomePedido, valorPedido, total, obs});
+                    jtPedido.setModel(modelo);
+                    
 
-        } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraProdutos1.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }//GEN-LAST:event_jbIncluirActionPerformed
+        deletaItem.removeRow(linha);
+        
+        somarValorTotal();
+
+
+    }//GEN-LAST:event_jbRetirarActionPerformed
 
     /**
      * Converte data tipo date para o formato americano yyyy/MM/dd também tipo
@@ -610,7 +747,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         double soma = 0;
         int cont = jtPedido.getRowCount();
         for (int i = 0; i < cont; i++) {
-            double valor = (double) jtPedido.getValueAt(i, 2);
+            double valor = (double) jtPedido.getValueAt(i, 4);
             soma += valor;
         }
         jtValorTotal.setText(String.valueOf(soma));
@@ -647,6 +784,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         jtfNome.setText("");
         jtValorTotal.setText("");
         jtfCPF.setText("");
+        jtfObservacao.setText("");
 
         DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
         modelo.setNumRows(0);
@@ -659,12 +797,12 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             DadosProduto dadosProduto = new DadosProduto();
             ArrayList<Produto> listaProdutos = new ArrayList<>();
 
-            listaProdutos = dadosProduto.listar(produto);
+            listaProdutos = dadosProduto.listarProduto();
 
             DefaultTableModel modelo = new DefaultTableModel();
-            modelo.setColumnIdentifiers(new Object[]{"Descrição", "Valor(R$)"});
+            modelo.setColumnIdentifiers(new Object[]{"Cod.", "Descrição", "Valor(R$)"});
             for (Produto p : listaProdutos) {
-                modelo.addRow(new Object[]{p.getNome(), p.getValorUnitario()});
+                modelo.addRow(new Object[]{p.getCod_produto(), p.getNome(), p.getValorUnitario()});
             }
 
             jtProdutos.setModel(modelo);
@@ -704,6 +842,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jNomeCliente;
     private javax.swing.JLabel jNomeCliente1;
     private javax.swing.JPanel jPanel1;
@@ -714,17 +853,16 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JButton jbAtualizarCardapio;
-    private javax.swing.JButton jbAtualizarCardapio1;
     private javax.swing.JButton jbCancelarPedido;
     private javax.swing.JButton jbFinalizarPedido;
     private javax.swing.JButton jbIncluir;
-    private javax.swing.JButton jbIniciarPedido;
     private javax.swing.JButton jbRetirar;
     private javax.swing.JTable jtPedido;
     private javax.swing.JTable jtProdutos;
     private javax.swing.JTextField jtValorTotal;
     private javax.swing.JFormattedTextField jtfCPF;
     private javax.swing.JTextField jtfNome;
+    private javax.swing.JTextField jtfObservacao;
     // End of variables declaration//GEN-END:variables
 
 }

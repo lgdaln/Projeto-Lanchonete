@@ -29,9 +29,10 @@ public class DadosTipo extends conexao.ConexaoBanco {
         super.desconectar();
     }
 
-    public ArrayList<Tipo> listarTipo(Tipo tipo) throws Exception {
+    public ArrayList<Tipo> listarTipo() throws Exception {
 
         ArrayList<Tipo> listaTipo = new ArrayList<>();
+        Tipo tipo = new Tipo();
 
         //instrução sql listando os tipos
         String sql = " select pk_cod_tipo, descricao";

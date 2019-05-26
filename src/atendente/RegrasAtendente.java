@@ -14,17 +14,9 @@ import cliente.Cliente;
 public class RegrasAtendente {
 
     public void cadastrarAtendente(Atendente atendente) throws Exception {
-
         DadosAtendente dadosAtendente = new DadosAtendente();
         dadosAtendente.cadastrarAtendente(atendente);
-
     }
 
-    public void ExcluirAtendente(Atendente atendente) throws Exception {
-
-        DadosAtendente dadosAtendente = new DadosAtendente();
-        dadosAtendente.excluirAtendente(atendente);
-
-    }
 
 }

@@ -8,6 +8,7 @@ package pedido;
 import atendente.Atendente;
 import cliente.Cliente;
 import java.util.Date;
+import produto.Produto;
 
 /**
  *
@@ -17,11 +18,50 @@ public class Pedido {
     
     private int cod_pedido;
     private Date data;
-    private Date hora;
+    private Date hora; 
     private String status;
     private String observacao;
     private Cliente cliente;
+    private Double valorAtual;
     private Atendente atendente;
+    private Produto produto;
+    private int quantidade;
+    
+    
+    
+
+    public int getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
+    }
+    
+    
+    
+
+    public Double getValorAtual() {
+        return valorAtual;
+    }
+
+    public void setValorAtual(Double valorAtual) {
+        this.valorAtual = valorAtual;
+    }
+    
+    
+    
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+    
+    
+    
 
     /**
      * @return the cod_pedido
@@ -65,19 +105,7 @@ public class Pedido {
         this.hora = hora;
     }
 
-    /**
-     * @return the status
-     */
-    public String getStatus() {
-        return status;
-    }
 
-    /**
-     * @param status the status to set
-     */
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     /**
      * @return the observacao
@@ -119,6 +147,14 @@ public class Pedido {
      */
     public void setAtendente(Atendente atendente) {
         this.atendente = atendente;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     
     

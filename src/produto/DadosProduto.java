@@ -33,7 +33,7 @@ public class DadosProduto extends conexao.ConexaoBanco {
         super.desconectar();
     }
 
-    public ArrayList<Produto> listar(Produto filtro) throws Exception {
+    public ArrayList<Produto> listarProduto() throws Exception {
         ArrayList<Produto> retorno = new ArrayList<>();
 
         String sql = " SELECT produto.pk_cod_produto, produto.nome, produto.disponibilidade, produto.valor_unitario, tipo.pk_cod_tipo, tipo.descricao  FROM produto INNER JOIN tipo ON produto.fk_cod_tipo = tipo.pk_cod_tipo WHERE produto.pk_cod_produto>0; ";
@@ -73,7 +73,7 @@ public class DadosProduto extends conexao.ConexaoBanco {
         super.desconectar();
     }
     
-        public void atualizarPrpoduto(Produto p) throws SQLException, Exception {
+        public void atualizarProduto(Produto p) throws SQLException, Exception {
         //instrucao a ser executada
         String sql = "UPDATE produto SET nome = ?, disponibilidade = ?, valor_unitario = ?, fk_cod_tipo = ? WHERE pk_cod_produto = ? ";
 
@@ -91,5 +91,6 @@ public class DadosProduto extends conexao.ConexaoBanco {
         //fechando a conexão com o banco de dados
         super.desconectar();
     }
+
 
 }

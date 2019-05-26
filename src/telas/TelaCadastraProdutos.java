@@ -24,7 +24,7 @@ import tipo.Tipo;
  *
  * @author lgdal
  */
-public class TelaCadastraProdutos1 extends javax.swing.JFrame {
+public class TelaCadastraProdutos extends javax.swing.JFrame {
 
     Tipo tipo = new Tipo();
     DadosTipo dadosTipo = new DadosTipo();
@@ -42,7 +42,7 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
     /**
      * Creates new form TelaCadastraTipos
      */
-    public TelaCadastraProdutos1() {
+    public TelaCadastraProdutos() {
         initComponents();
         carregarTipos();
         carregarProdutos();
@@ -401,7 +401,7 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
             int linha = jtProdutos.getSelectedRow();
             int codigoTipo = (int) jtProdutos.getValueAt(linha, 0);
             produto.setCod_produto(codigoTipo);
-            regrasProduto.removerProduto(produto);
+            dadosProduto.removerProduto(produto);
 
             limparCampos();
             carregarProdutos();
@@ -468,7 +468,7 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
             jtfPreco.setText(String.valueOf(p.getValorUnitario()));
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraProdutos1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -498,8 +498,8 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
             tipo.setDescricao(descricao);
 
             produto.setTipo(tipo);
-
-            regrasProduto.editarProduto(produto);
+            
+            regrasProduto.atualizarProduto(produto);
 
             carregarProdutos();
 
@@ -533,14 +533,18 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraProdutos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraProdutos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraProdutos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastraProdutos1.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastraProdutos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -549,7 +553,7 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaCadastraProdutos1().setVisible(true);
+                new TelaCadastraProdutos().setVisible(true);
             }
         });
     }
@@ -562,7 +566,7 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
         try {
             Tipo tipo = new Tipo();
             DefaultTableModel modelo = new DefaultTableModel();
-            ArrayList<Tipo> listaTipos = dadosTipo.listarTipo(tipo);
+            ArrayList<Tipo> listaTipos = dadosTipo.listarTipo();
 
             modelo.setColumnIdentifiers(new Object[]{"Código", "Tipo"});
             for (Tipo t : listaTipos) {
@@ -586,7 +590,7 @@ public class TelaCadastraProdutos1 extends javax.swing.JFrame {
             Produto produto = new Produto();
 
             ArrayList<Produto> listaProdutos = new ArrayList<>();
-            listaProdutos = dadosProduto.listar(produto);
+            listaProdutos = dadosProduto.listarProduto();
             DefaultTableModel modelo = new DefaultTableModel();
 
             modelo.setColumnIdentifiers(new Object[]{"Código", "Descrição", "Tipo", "Disponibilidade", "Valor(R$)"});

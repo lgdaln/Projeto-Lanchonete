@@ -5,29 +5,20 @@
  */
 package produto;
 
-import cliente.RegrasCliente;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author lgdal
  */
 public class RegrasProduto {
-
+    
     public void cadastrarProduto(Produto produto) throws Exception {
         DadosProduto dadosProduto = new DadosProduto();
         dadosProduto.cadastrarProduto(produto);
     }
-
-    public void editarProduto(Produto produto) throws Exception {
+    
+    public void atualizarProduto(Produto p) throws Exception {
         DadosProduto dadosProduto = new DadosProduto();
-        dadosProduto.atualizarPrpoduto(produto);
+        dadosProduto.atualizarProduto(p);
     }
-
-    public void removerProduto(Produto produto) throws Exception {
-        DadosProduto dadosProduto = new DadosProduto();
-        dadosProduto.removerProduto(produto);
-    }
-
+    
 }

@@ -46,11 +46,8 @@ public class RegrasCliente {
         }
 
         DadosCliente dadosCliente = new DadosCliente();
-        try {
-            dadosCliente.cadastrarCliente(cliente);
-        } catch (Exception ex) {
-            Logger.getLogger(RegrasCliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        dadosCliente.cadastrarCliente(cliente);
+
     }
 
 }
