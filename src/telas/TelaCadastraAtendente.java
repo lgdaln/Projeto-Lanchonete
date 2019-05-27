@@ -178,7 +178,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
         try {
             regrasAtendente.cadastrarAtendente(atendente);
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
         }
         carregarAtendentes();
         limparCampos();
@@ -205,7 +205,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
             dadosAtendente.excluirAtendente(atendente);
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
         }
         limparCampos();
         carregarAtendentes();
@@ -267,7 +267,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
             jtListaAtendentes.setModel(modelo);
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 

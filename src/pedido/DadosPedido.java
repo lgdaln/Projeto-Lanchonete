@@ -79,7 +79,7 @@ public class DadosPedido extends conexao.ConexaoBanco {
         Pedido pedido = new Pedido();
 
         try {
-            String sql = "SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto WHERE pedido.data = ? ";
+            String sql = "SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao,pedido.quantidade , pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto WHERE pedido.data = ? ";
 
             PreparedStatement preparedStatement = super.conectar().prepareStatement(sql);
 
@@ -97,6 +97,10 @@ public class DadosPedido extends conexao.ConexaoBanco {
 
                 cliente.setNome(leitor.getString("nomeCliente"));
                 pedido.setCliente(cliente);
+                
+                pedido.setQuantidade(leitor.getInt("quantidade"));
+                
+                pedido.setValorAtual(leitor.getDouble("valorAtual"));
 
                 listaPedidoCliente.add(pedido);
 

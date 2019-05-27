@@ -171,7 +171,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
         try {
             regrasTipo.cadastrarTipo(tipo);
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
         }
         carregarTipos();
         limparCampos();
@@ -196,7 +196,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
             dadosTipo.removerTipo(tipo);
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
         }
         limparCampos();
         carregarTipos();
@@ -256,7 +256,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
             jtListaTipos.setModel(modelo);
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 

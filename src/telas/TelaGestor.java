@@ -218,7 +218,6 @@ public class TelaGestor extends javax.swing.JFrame {
             Date dateUS = converterDataParaDateUS(date);
             pedido.setData(dateUS);
 
-            jtfValorVendidoData.setText(String.valueOf(regrasPedido.valorTotalFechamentoDoDia(pedido)));
 
             carregarVendas(pedido);
 
@@ -295,18 +294,36 @@ public class TelaGestor extends javax.swing.JFrame {
         RegrasPedido regrasPedido = new RegrasPedido();
 
         try {
-            
+
             listaPedidos = regrasPedido.pesquisarPedidoClienteporData(p);
-            modelo.setColumnIdentifiers(new Object[]{"PRODUTOS VENDIDOS", "NOME CLIENTE"});
+            modelo.setColumnIdentifiers(new Object[]{"QUANTIDADE", "PRODUTOS VENDIDOS", "VALOR UNITÁRIO", "NOME CLIENTE"});
             for (Pedido pedido : listaPedidos) {
-                modelo.addRow(new Object[]{pedido.getProduto().getNome(), pedido.getCliente().getNome()});
+                modelo.addRow(new Object[]{pedido.getQuantidade(), pedido.getProduto().getNome(), pedido.getValorAtual(), pedido.getCliente().getNome()});
             }
-            
+
             jtProdutosVendidos.setModel(modelo);
 
+            somarValorTotal();
+
         } catch (Exception ex) {
-            Logger.getLogger(TelaGestor.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaGestor.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    /**
+     * Informa o valor total vendido em um dia
+     */
+    private void somarValorTotal() {
+        double soma = 0;
+        int cont = jtProdutosVendidos.getRowCount();
+        for (int i = 0; i < cont; i++) {
+            double valorUnitario = (double) jtProdutosVendidos.getValueAt(i, 2);
+            int quantidade = (int) jtProdutosVendidos.getValueAt(i, 0);
+            double valor = valorUnitario * (double)quantidade;
+
+            soma += valor;
+        }
+        jtfValorVendidoData.setText(String.valueOf(soma));
     }
 
     /**

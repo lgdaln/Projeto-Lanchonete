@@ -164,7 +164,7 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
         try {
             listaPedidosCPF = regrasPedido.pesquisarPedidoClienteporCPF(pedido);
         } catch (Exception ex) {
-            Logger.getLogger(TelaPesquisarPedido.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaPesquisarPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
         modelo.setColumnIdentifiers(new Object[]{"ITENS PEDIDOS", "STATUS"});
         for (Pedido p : listaPedidosCPF) {
@@ -232,7 +232,7 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
             }
             jtPedidos.setModel(modelo);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            //JOptionPane.showMessageDialog(this, e.getMessage());
         }
 
     }

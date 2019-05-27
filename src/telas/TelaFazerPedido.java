@@ -427,7 +427,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         limparCampos();
@@ -558,7 +558,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             jtfObservacao.setText("");
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 

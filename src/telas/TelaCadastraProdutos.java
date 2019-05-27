@@ -8,12 +8,8 @@ package telas;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
-import javax.swing.RowSorter;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import javax.swing.table.TableRowSorter;
 import produto.DadosProduto;
 import produto.Produto;
 import produto.RegrasProduto;
@@ -468,7 +464,7 @@ public class TelaCadastraProdutos extends javax.swing.JFrame {
             jtfPreco.setText(String.valueOf(p.getValorUnitario()));
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 

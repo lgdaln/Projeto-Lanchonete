@@ -244,7 +244,7 @@ public class TelaCozinha extends javax.swing.JFrame {
             carregarPedidos();
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jbPedidoEntregueActionPerformed
 
@@ -262,7 +262,7 @@ public class TelaCozinha extends javax.swing.JFrame {
             carregarPedidos();
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
@@ -288,7 +288,7 @@ public class TelaCozinha extends javax.swing.JFrame {
             dadosPedido.atualizarAtendente(pedido);
             
         } catch (Exception ex) {
-            Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         atualizarAtendentes();
@@ -315,7 +315,7 @@ public class TelaCozinha extends javax.swing.JFrame {
             carregarPedidos();
 
         } catch (Exception ex) {
-            Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
+           // Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -383,7 +383,7 @@ public class TelaCozinha extends javax.swing.JFrame {
             }
             jTableConzinha.setModel(modelo);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+           // JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
@@ -407,7 +407,7 @@ public class TelaCozinha extends javax.swing.JFrame {
             }
             jtAtendentes.setModel(modelo);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage());
+            //JOptionPane.showMessageDialog(this, e.getMessage());
         }
 
     }
