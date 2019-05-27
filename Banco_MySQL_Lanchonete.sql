@@ -67,15 +67,3 @@ INSERT INTO  Atendente (nome) VALUES ('**SEM ATENDENTE**');
 INSERT INTO  Atendente (nome) VALUES ('Luiz');
 INSERT INTO  Atendente (nome) VALUES ('Maria');
 INSERT INTO  Atendente (nome) VALUES ('Julia');
-
-
-
-
-
-
-SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto WHERE pedido.data = '2019-05-17'
-SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto WHERE pedido.status <> 'Entregue'
-
-SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, pedido.statusp, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo, atendente.pk_matricula, atendente.nome AS nomeAtendente FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto INNER JOIN atendente ON pedido.fk_matricula = atendente.pk_matricula WHERE  pedido.statusp <> 'Entregue';
-
-SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, pedido.statusp, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto ;

@@ -2,7 +2,6 @@ package telas;
 
 import atendente.Atendente;
 import atendente.DadosAtendente;
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

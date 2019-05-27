@@ -4,7 +4,6 @@ import atendente.Atendente;
 import cliente.Cliente;
 import cliente.DadosCliente;
 import cliente.RegrasCliente;
-import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -434,6 +433,8 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         } catch (Exception ex) {
             Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        limparCampos();
 
 
     }//GEN-LAST:event_jbFinalizarPedidoActionPerformed
