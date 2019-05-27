@@ -41,14 +41,12 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         CarregarProdutos();
-        
-        //Coloca os nomes sob os icones dos botões centrais.
 
+        //Coloca os nomes sob os icones dos botões centrais.
         jbIncluir.setVerticalTextPosition(SwingConstants.BOTTOM);
         jbIncluir.setHorizontalTextPosition(SwingConstants.CENTER);
         jbRetirar.setVerticalTextPosition(SwingConstants.BOTTOM);
         jbRetirar.setHorizontalTextPosition(SwingConstants.CENTER);
-
 
     }
 
@@ -380,7 +378,6 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     private void jbCancelarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCancelarPedidoActionPerformed
         // Se o botão cancelar for apertado ele limpa os campos da tela e desabilita alguns botões:
         limparCampos();
-        habilitarDesabilitarCampos(false);
     }//GEN-LAST:event_jbCancelarPedidoActionPerformed
 
     private void jbFinalizarPedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbFinalizarPedidoActionPerformed
@@ -391,8 +388,8 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             Pedido pedido = new Pedido();
             DadosPedido dadosPedido = new DadosPedido();
             Atendente atendente = new Atendente();
-            
-            RegrasPedido regrasPedido = new RegrasPedido();                   
+
+            RegrasPedido regrasPedido = new RegrasPedido();
 
             pedido.setData(converterDataParaDateUS(new java.util.Date(System.currentTimeMillis())));
 
@@ -413,27 +410,26 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             for (int i = 0; i < linhas; i++) {
                 pedido.setObservacao((String) jtPedido.getValueAt(i, 5));
                 pedido.setQuantidade((int) jtPedido.getValueAt(i, 1));
-                
+
                 produto.setCod_produto((int) jtPedido.getValueAt(i, 0));
                 produto.setNome((String) jtPedido.getValueAt(i, 2));
                 produto.setValorUnitario((double) jtPedido.getValueAt(i, 3));
 
                 pedido.setProduto(produto);
-                
+
                 //Assim que o pedido é criado, o atendente é setado com a chave 1 = SEM ATENDENTE.
                 atendente.setMatricula(1);
-                
-                pedido.setAtendente(atendente);
-                
-                regrasPedido.cadastraPedido(pedido);
 
+                pedido.setAtendente(atendente);
+
+                regrasPedido.cadastraPedido(pedido);
 
             }
 
         } catch (Exception ex) {
             Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         limparCampos();
 
 
@@ -455,6 +451,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
             int linhas = jtPedido.getRowCount();
 
+            // Se item tiver sido incluido no pedido entra nesse if.
             if (linhas == 0) {
                 int linha = jtProdutos.getSelectedRow();
 
@@ -485,6 +482,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
                 //fim do se
             }
 
+            // Se algum item já foi selecionado entra nesse if.
             if (linhas != 0) {
                 int linha = jtProdutos.getSelectedRow();
                 produto.setCod_produto((int) jtProdutos.getValueAt(linha, 0));
@@ -495,8 +493,11 @@ public class TelaFazerPedido extends javax.swing.JFrame {
                 String produtoSelecionado = pedido.getProduto().getNome();
                 linhas = jtPedido.getRowCount();
 
+                // Esse for vai passar por todos os itens da tabela pedido para verificar se o item já foi escolhido
+                // Se o item já foi escolhido vai ser acrescentada a quantidade e não criada uma nova linha.
                 for (int i = 0; i < linhas; i++) {
                     String produtoPedido = (String) jtPedido.getValueAt(i, 2);
+                    //Se o produto selecionado já estiver na tabela pedido ele apenas acrescenta a quantidade.
                     if (produtoSelecionado.equals(produtoPedido)) {
                         controlador = 1;
                         quantidade = (int) jtPedido.getValueAt(i, 1);
@@ -525,6 +526,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
                 }
 
+                //Se o item não está na tabela pedido ele cria uma nova linha.
                 if ((controlador != 1)) {
                     linha = jtProdutos.getSelectedRow();
 
@@ -552,10 +554,9 @@ public class TelaFazerPedido extends javax.swing.JFrame {
                 }
 
             }
-            
+
             jtfObservacao.setText("");
 
-        
         } catch (Exception ex) {
             Logger.getLogger(TelaCadastraProdutos.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -573,18 +574,20 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     }//GEN-LAST:event_jtfObservacaoActionPerformed
 
     private void jbRetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbRetirarActionPerformed
-        // TODO add your handling code here:
+        // Diminui a quantidade ou retira itens da tabela (Se a quantidade for 1):
         DefaultTableModel deletaItem = (DefaultTableModel) jtPedido.getModel();
         int linha = jtPedido.getSelectedRow();
 
         int quantidade = (int) jtPedido.getValueAt(linha, 1);
 
+        //Se a quantidade for 1 ele simplesmente apaga a linha.
         if (quantidade == 1) {
             jtPedido.removeRowSelectionInterval(linha, linha);
         }
+
+        //Se a quantidade for maior que um vai retirando 1 a cada click no botão.
         if (quantidade != 1) {
-            
-            
+
             int codProduto = (int) jtPedido.getValueAt(linha, 0);
             int quantidadePedido = (int) jtPedido.getValueAt(linha, 1);
             String nomePedido = (String) jtPedido.getValueAt(linha, 2);
@@ -592,7 +595,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             String obs = (String) jtPedido.getValueAt(linha, 5);
 
             quantidadePedido = quantidadePedido - 1;
-            
+
             Double total = quantidadePedido * valorPedido;
 
             DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
@@ -604,15 +607,15 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             }
 
             //Inseri o produto selecionado na tabela Pedido.
-                    modelo.setColumnIdentifiers(new Object[]{"Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."});
-                    modelo.addRow(new Object[]{codProduto, quantidadePedido, nomePedido, valorPedido, total, obs});
-                    jtPedido.setModel(modelo);
-                    
+            modelo.setColumnIdentifiers(new Object[]{"Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."});
+            modelo.addRow(new Object[]{codProduto, quantidadePedido, nomePedido, valorPedido, total, obs});
+            jtPedido.setModel(modelo);
 
         }
-
-        deletaItem.removeRow(linha);
         
+        //Remove a linha selecionado na tabela pedido. Pq sempre é criada uma nova linha com a quantidade.
+        deletaItem.removeRow(linha);
+
         somarValorTotal();
 
 
@@ -754,29 +757,6 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         jtValorTotal.setText(String.valueOf(soma));
     }
 
-    /**
-     * Vai adicionando itens na lista
-     */
-    private void adicionarItensaoPedido() {
-
-        /*
-        
-        DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
-        
-        //Inserindo uma nova linha na tabela
-        int cont = 0;
-        for (int i = 0; i < cont; i++) {
-            modelo.setNumRows(0);
-        }
-        
-        //adicionar itens na tabela
-        modelo.addRow(new Object[]{
-            cardapio1.getNome_cardapio(),
-            cardapio1.getValor_cardapio()
-        });
-        
-         */
-    }
 
     /*
     Limpa os dados da tela e da tabela.
@@ -792,6 +772,9 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Carrega os produtos na tela para que possam ser escolhidos para a tabela pedido.
+     */
     private void CarregarProdutos() {
         try {
             Produto produto = new Produto();
@@ -812,33 +795,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * Habilita(true)/Desabilita(false) campos da tela.
-     *
-     * @param condicao
-     */
-    private void habilitarDesabilitarCampos(boolean condicao) {
 
-        /*
-        jbProduto1.setEnabled(condicao);
-        jbProduto2.setEnabled(condicao);
-        jbProduto3.setEnabled(condicao);
-        jbProduto4.setEnabled(condicao);
-        jbProduto5.setEnabled(condicao);
-        jbProduto6.setEnabled(condicao);
-        jbProduto7.setEnabled(condicao);
-        jbProduto8.setEnabled(condicao);
-        jbProduto9.setEnabled(condicao);
-        jbFinalizarPedido.setEnabled(condicao);
-        jbDeletarItem.setEnabled(condicao);
-
-         */
-    }
-
-    private void mensagem() {
-        JOptionPane.showMessageDialog(this, "Entrar com seu nome e apertar IniciarPedido", "ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
-
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
