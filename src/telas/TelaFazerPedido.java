@@ -1,6 +1,7 @@
 package telas;
 
 import atendente.Atendente;
+import atendente.DadosAtendente;
 import cliente.Cliente;
 import cliente.DadosCliente;
 import cliente.RegrasCliente;
@@ -8,12 +9,13 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import java.util.Date;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import pedido.DadosPedido;
 import pedido.Pedido;
@@ -21,7 +23,6 @@ import pedido.RegrasPedido;
 import produto.DadosProduto;
 import produto.Produto;
 import produto.RegrasProduto;
-import tipo.Tipo;
 
 public class TelaFazerPedido extends javax.swing.JFrame {
 
@@ -32,6 +33,8 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     DadosProduto dadosProduto = new DadosProduto();
     Produto produto = new Produto();
     RegrasProduto regrasProduto = new RegrasProduto();
+    
+    DadosAtendente dadosAtendente = new DadosAtendente();
 
     private static void addRow(Object[] object) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -125,6 +128,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             jtProdutos.getColumnModel().getColumn(2).setMaxWidth(200);
         }
 
+        jtfObservacao.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jtfObservacao.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfObservacaoActionPerformed(evt);
@@ -256,11 +260,19 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         jNomeCliente.setForeground(new java.awt.Color(255, 255, 255));
         jNomeCliente.setText("NOME:");
 
+        jtfNome.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jtfNome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jtfNomeActionPerformed(evt);
             }
         });
+
+        try {
+            jtfCPF.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jtfCPF.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
 
         jNomeCliente1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         jNomeCliente1.setForeground(new java.awt.Color(255, 255, 255));
@@ -393,7 +405,11 @@ public class TelaFazerPedido extends javax.swing.JFrame {
 
             pedido.setData(converterDataParaDateUS(new java.util.Date(System.currentTimeMillis())));
 
+            pedido.setHora(converterHora(new java.util.Date(System.currentTimeMillis())));
+
             pedido.setObservacao(jtfObservacao.getText());
+
+            pedido.setStatus("em elaboração");
 
             cliente.setNome(jtfNome.getText());
             cliente.setCpf(jtfCPF.getText());
@@ -418,16 +434,17 @@ public class TelaFazerPedido extends javax.swing.JFrame {
                 pedido.setProduto(produto);
 
                 //Assim que o pedido é criado, o atendente é setado com a chave 1 = SEM ATENDENTE.
-                atendente.setMatricula(1);
+                pedido.setAtendente(escolherAtendentes());
 
-                pedido.setAtendente(atendente);
 
                 regrasPedido.cadastraPedido(pedido);
 
             }
 
+            JOptionPane.showMessageDialog(this, "PEDIDO REALIZADO!", "MENSAGEM", JOptionPane.INFORMATION_MESSAGE);
+
         } catch (Exception ex) {
-            //Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaFazerPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         limparCampos();
@@ -514,12 +531,12 @@ public class TelaFazerPedido extends javax.swing.JFrame {
                         for (int j = 0; j < cont; j++) {
                             modelo.setNumRows(0);
                         }
+
                         //Inseri o produto selecionado na tabela Pedido.
                         modelo.setColumnIdentifiers(new Object[]{"Cod.", "Quant", "Descrição", "Valor(R$)", "Total(R$)", "Obs."});
                         modelo.addRow(new Object[]{pedido.getProduto().getCod_produto(), quantidade, pedido.getProduto().getNome(), pedido.getValorAtual(), valorTotal, jtfObservacao.getText()});
                         jtPedido.setModel(modelo);
                         somarValorTotal();
-
                         break;
 
                     }
@@ -537,6 +554,7 @@ public class TelaFazerPedido extends javax.swing.JFrame {
                     pedido.setProduto(produto);
 
                     quantidade = 1;
+                    pedido.setQuantidade(quantidade);
 
                     DefaultTableModel modelo = (DefaultTableModel) jtPedido.getModel();
 
@@ -611,8 +629,11 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             modelo.addRow(new Object[]{codProduto, quantidadePedido, nomePedido, valorPedido, total, obs});
             jtPedido.setModel(modelo);
 
+            int ultimaLinha = jtPedido.getRowCount();
+            jtPedido.getSelectionModel().addSelectionInterval(ultimaLinha - 1, ultimaLinha);
+
         }
-        
+
         //Remove a linha selecionado na tabela pedido. Pq sempre é criada uma nova linha com a quantidade.
         deletaItem.removeRow(linha);
 
@@ -644,6 +665,13 @@ public class TelaFazerPedido extends javax.swing.JFrame {
             throw e;
         }
         return date;
+    }
+
+    public String converterHora(Date pData) throws Exception {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Date hora = Calendar.getInstance().getTime(); // Ou qualquer outra forma que tem
+        String dataFormatada = sdf.format(hora);
+        return dataFormatada;
     }
 
     /**
@@ -757,7 +785,6 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         jtValorTotal.setText(String.valueOf(soma));
     }
 
-
     /*
     Limpa os dados da tela e da tabela.
      */
@@ -773,7 +800,8 @@ public class TelaFazerPedido extends javax.swing.JFrame {
     }
 
     /**
-     * Carrega os produtos na tela para que possam ser escolhidos para a tabela pedido.
+     * Carrega os produtos na tela para que possam ser escolhidos para a tabela
+     * pedido.
      */
     private void CarregarProdutos() {
         try {
@@ -795,7 +823,27 @@ public class TelaFazerPedido extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Verifica se a lista de atendentes já foi criada e caso negativo cadastra o primeiro.
+     * @return
+     * @throws Exception 
+     */
+    private Atendente escolherAtendentes() throws Exception {
 
+            Atendente atendente = new Atendente();
+            ArrayList<Atendente> listaAtendentes = dadosAtendente.listarAtendentes();
+            int tamanho = listaAtendentes.size();
+
+            if (tamanho == 0) {
+                atendente.setNome("sem atendente");
+                dadosAtendente.cadastrarAtendente(atendente);
+            }
+            
+            atendente.setMatricula(1);
+            
+            return atendente;
+
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

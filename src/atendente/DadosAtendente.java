@@ -20,7 +20,7 @@ import tipo.Tipo;
  */
 public class DadosAtendente extends conexao.ConexaoBanco {
 
-    void cadastrarAtendente(Atendente atendente) throws SQLException, Exception {
+    public void cadastrarAtendente(Atendente atendente) throws SQLException, Exception {
         //instrucao a ser executada
         String sql = "INSERT INTO atendente (nome)  VALUES (?)";
         //preparando a instrução

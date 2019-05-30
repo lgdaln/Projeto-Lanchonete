@@ -52,7 +52,7 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CÓDIGO", "NOME", "STATUS"
+                "CÓDIGO", "NOME", "DATA", "HORA", "CLIENTE", "STATUS"
             }
         ));
         jtPedidos.setName("LISTA DE PEDIDOS"); // NOI18N
@@ -61,9 +61,9 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
             jtPedidos.getColumnModel().getColumn(0).setMinWidth(110);
             jtPedidos.getColumnModel().getColumn(0).setPreferredWidth(110);
             jtPedidos.getColumnModel().getColumn(0).setMaxWidth(110);
-            jtPedidos.getColumnModel().getColumn(2).setMinWidth(200);
-            jtPedidos.getColumnModel().getColumn(2).setPreferredWidth(200);
-            jtPedidos.getColumnModel().getColumn(2).setMaxWidth(200);
+            jtPedidos.getColumnModel().getColumn(5).setMinWidth(200);
+            jtPedidos.getColumnModel().getColumn(5).setPreferredWidth(200);
+            jtPedidos.getColumnModel().getColumn(5).setMaxWidth(200);
         }
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -164,7 +164,7 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
         try {
             listaPedidosCPF = regrasPedido.pesquisarPedidoClienteporCPF(pedido);
         } catch (Exception ex) {
-            //Logger.getLogger(TelaPesquisarPedido.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaPesquisarPedido.class.getName()).log(Level.SEVERE, null, ex);
         }
         modelo.setColumnIdentifiers(new Object[]{"ITENS PEDIDOS", "STATUS"});
         for (Pedido p : listaPedidosCPF) {
@@ -226,9 +226,9 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
             ArrayList<Pedido> listaPedidos = dadosPedidos.pesquisarPedidoClientePendentes();
 
             DefaultTableModel modelo = new DefaultTableModel();
-            modelo.setColumnIdentifiers(new Object[]{"CÓDIGO", "NOME", "CLIENTE", "STATUS"});
+            modelo.setColumnIdentifiers(new Object[]{"CÓDIGO", "NOME", "DATA", "HORA", "CLIENTE", "STATUS"});
             for (Pedido pedido : listaPedidos) {
-                modelo.addRow(new Object[]{pedido.getCod_pedido(), pedido.getProduto().getNome(), pedido.getCliente().getNome(), pedido.getStatus()});
+                modelo.addRow(new Object[]{pedido.getCod_pedido(), pedido.getProduto().getNome(),pedido.getData(), pedido.getHora() , pedido.getCliente().getNome(), pedido.getStatus()});
             }
             jtPedidos.setModel(modelo);
         } catch (Exception e) {
@@ -237,18 +237,6 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
 
     }
 
-    /**
-     * Carrega todas as vendas para um determinado cliente.
-     *
-     * @param nomeCliente
-     */
-    private void carregarVendaspeloCliente(String nomeCliente) {
-
-        /*
-
-
-         */
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

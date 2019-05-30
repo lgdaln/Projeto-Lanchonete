@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package telas;
 
 import atendente.Atendente;
@@ -13,26 +8,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
-
-
-/**
- *
- * @author lgdal
- */
 public class TelaCadastraAtendente extends javax.swing.JFrame {
 
-   
     Atendente atendente = new Atendente();
     RegrasAtendente regrasAtendente = new RegrasAtendente();
     DadosAtendente dadosAtendente = new DadosAtendente();
     ArrayList<DadosAtendente> listaDadosAtendentes = new ArrayList<>();
-    
 
     /**
      * Creates new form TelaCadastraTipos
      */
     public TelaCadastraAtendente() {
         initComponents();
+        setLocationRelativeTo(null);
         carregarAtendentes();
     }
 
@@ -55,6 +43,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
         jbExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("FUNCIONÁRIOS");
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -86,7 +75,7 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel1.setText("Nome do Atendente:");
 
-        jtfNome.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jtfNome.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
 
         jBCadastrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-reproduzir-filled-36.png"))); // NOI18N
         jBCadastrar.setText("CADASTRAR");
@@ -172,13 +161,17 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jBCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBCadastrarActionPerformed
-        // Ações para o botão cadastrar:
-
-        atendente.setNome(jtfNome.getText());
         try {
+            // Ações para o botão cadastrar:
+
+            escolherAtendentes();
+
+            atendente.setNome(jtfNome.getText());
+
             regrasAtendente.cadastrarAtendente(atendente);
+
         } catch (Exception ex) {
-           // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
         }
         carregarAtendentes();
         limparCampos();
@@ -205,12 +198,11 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
             dadosAtendente.excluirAtendente(atendente);
 
         } catch (Exception ex) {
-           // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
         }
         limparCampos();
         carregarAtendentes();
-        
- 
+
 
     }//GEN-LAST:event_jbExcluirActionPerformed
 
@@ -262,12 +254,14 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
 
             modelo.setColumnIdentifiers(new Object[]{"Mat.", "Nome"});
             for (Atendente a : listaAtendentes) {
-                modelo.addRow(new Object[]{a.getMatricula(), a.getNome()});
+                if (a.getMatricula() != 1) {     //Esse if evita que o usuário apague o "sem atendente" ver linha 285 private Atendente escolherAtendentes()
+                    modelo.addRow(new Object[]{a.getMatricula(), a.getNome()});
+                }
             }
             jtListaAtendentes.setModel(modelo);
 
         } catch (Exception ex) {
-           // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(TelaCadastraAtendente.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
@@ -278,6 +272,30 @@ public class TelaCadastraAtendente extends javax.swing.JFrame {
      */
     private void limparCampos() {
         jtfNome.setText("");
+
+    }
+
+    /**
+     * Se ainda não existem atendentes no banco ele cadastra o primeiro com
+     * matrícula = 1 e nome = "sem atendente".
+     *
+     * @return
+     * @throws Exception
+     */
+    private Atendente escolherAtendentes() throws Exception {
+
+        Atendente atendente = new Atendente();
+        ArrayList<Atendente> listaAtendentes = dadosAtendente.listarAtendentes();
+        int tamanho = listaAtendentes.size();
+
+        if (tamanho == 0) {
+            atendente.setNome("sem atendente");
+            dadosAtendente.cadastrarAtendente(atendente);
+        }
+
+        atendente.setMatricula(1);
+
+        return atendente;
 
     }
 

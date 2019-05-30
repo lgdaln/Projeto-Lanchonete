@@ -23,7 +23,7 @@ public class DadosPedido extends conexao.ConexaoBanco {
 
     public void cadastrarPedido(Pedido p) throws SQLException, Exception {
         //instrucao a ser executada
-        String sql = "INSERT INTO pedido (data, observacao, fk_cod_produto, valorAtual, fk_cod_cliente, fk_matricula, quantidade) VALUES((?),(?),(?),(?),(?), ?, ?) ";
+        String sql = "INSERT INTO pedido (data, observacao, fk_cod_produto, valorAtual, fk_cod_cliente, fk_matricula, quantidade, hora, statusp) VALUES((?),(?),(?),(?),(?), ?, ?, ?, ?) ";
         //preparando a instrução
         PreparedStatement preparedStatement = super.conectar().prepareStatement(sql);
         //passando os valores para os parametros
@@ -34,6 +34,8 @@ public class DadosPedido extends conexao.ConexaoBanco {
         preparedStatement.setInt(5, p.getCliente().getCod_cliente());
         preparedStatement.setInt(6, p.getAtendente().getMatricula());
         preparedStatement.setInt(7, p.getQuantidade());
+        preparedStatement.setString(8, p.getHora());
+        preparedStatement.setString(9, p.getStatus());
 
         // execute insert SQL stetement
         preparedStatement.executeUpdate();
@@ -97,9 +99,9 @@ public class DadosPedido extends conexao.ConexaoBanco {
 
                 cliente.setNome(leitor.getString("nomeCliente"));
                 pedido.setCliente(cliente);
-                
+
                 pedido.setQuantidade(leitor.getInt("quantidade"));
-                
+
                 pedido.setValorAtual(leitor.getDouble("valorAtual"));
 
                 listaPedidoCliente.add(pedido);
@@ -116,7 +118,7 @@ public class DadosPedido extends conexao.ConexaoBanco {
     public ArrayList<Pedido> pesquisarPedidoClientePendentes() throws Exception {
         ArrayList<Pedido> retorno = new ArrayList<>();
 
-        String sql = " SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, pedido.statusp, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo, atendente.nome AS nomeAtendente, pedido.quantidade FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto  INNER JOIN atendente ON pedido.fk_matricula = atendente.pk_matricula";
+        String sql = " SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.fk_cod_cliente, pedido.fk_cod_produto, pedido.statusp, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo, atendente.nome AS nomeAtendente, pedido.quantidade FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto  INNER JOIN atendente ON pedido.fk_matricula = atendente.pk_matricula  AND pedido.statusp <> 'entregue' ";
         //preparando a instrução
         PreparedStatement preparedStatement = super.conectar().prepareStatement(sql);
         //executando a instrução sql
@@ -136,6 +138,9 @@ public class DadosPedido extends conexao.ConexaoBanco {
             atendente.setNome(leitor.getString("nomeAtendente"));
             pedido.setAtendente(atendente);
             pedido.setQuantidade(leitor.getInt("quantidade"));
+            pedido.setData(leitor.getDate("data"));
+            pedido.setHora(leitor.getString("hora"));
+            pedido.setObservacao(leitor.getString("observacao"));
 
             retorno.add(pedido);
         }
@@ -193,7 +198,7 @@ public class DadosPedido extends conexao.ConexaoBanco {
         Pedido pedido = new Pedido();
 
         try {
-            String sql = "SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.statusp, pedido.fk_cod_cliente, pedido.fk_cod_produto, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto WHERE pedido.fk_cod_cliente = (SELECT pk_cod_cliente FROM cliente WHERE cpf = ?) ";
+            String sql = "SELECT pedido.pk_cod_pedido, pedido.data, pedido.hora, pedido.observacao, pedido.valorAtual, pedido.statusp, pedido.fk_cod_cliente, pedido.fk_cod_produto, cliente.pk_cod_cliente, cliente.cpf, cliente.nome AS nomeCliente, produto.pk_cod_produto, produto.nome AS nomeProduto, produto.disponibilidade, produto.valor_unitario, produto.fk_cod_tipo FROM pedido INNER JOIN cliente ON pedido.fk_cod_cliente = cliente.pk_cod_cliente INNER JOIN produto ON pedido.fk_cod_produto = produto.pk_cod_produto WHERE pedido.fk_cod_cliente = (SELECT pk_cod_cliente FROM cliente WHERE cpf = ? )  AND pedido.statusp <> 'entregue' ";
 
             PreparedStatement preparedStatement = super.conectar().prepareStatement(sql);
 

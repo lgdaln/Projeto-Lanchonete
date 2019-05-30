@@ -18,7 +18,7 @@ public class Pedido {
     
     private int cod_pedido;
     private Date data;
-    private Date hora; 
+    private String hora; 
     private String status;
     private String observacao;
     private Cliente cliente;
@@ -91,20 +91,6 @@ public class Pedido {
         this.data = data;
     }
 
-    /**
-     * @return the hora
-     */
-    public Date getHora() {
-        return hora;
-    }
-
-    /**
-     * @param hora the hora to set
-     */
-    public void setHora(Date hora) {
-        this.hora = hora;
-    }
-
 
 
     /**
@@ -155,6 +141,14 @@ public class Pedido {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getHora() {
+        return hora;
+    }
+
+    public void setHora(String hora) {
+        this.hora = hora;
     }
     
     

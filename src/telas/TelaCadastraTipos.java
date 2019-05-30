@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package telas;
 
 import java.util.ArrayList;
@@ -13,10 +8,6 @@ import tipo.DadosTipo;
 import tipo.RegrasTipo;
 import tipo.Tipo;
 
-/**
- *
- * @author lgdal
- */
 public class TelaCadastraTipos extends javax.swing.JFrame {
 
     Tipo tipo = new Tipo();
@@ -29,6 +20,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
      */
     public TelaCadastraTipos() {
         initComponents();
+        setLocationRelativeTo(null);
         carregarTipos();
     }
 
@@ -51,6 +43,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
         jbExcluir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("TIPOS");
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
 
@@ -70,11 +63,13 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        jtListaTipos.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jtListaTipos);
         if (jtListaTipos.getColumnModel().getColumnCount() > 0) {
-            jtListaTipos.getColumnModel().getColumn(0).setMinWidth(150);
-            jtListaTipos.getColumnModel().getColumn(0).setPreferredWidth(150);
-            jtListaTipos.getColumnModel().getColumn(0).setMaxWidth(150);
+            jtListaTipos.getColumnModel().getColumn(0).setResizable(false);
+            jtListaTipos.getColumnModel().getColumn(0).setPreferredWidth(15);
+            jtListaTipos.getColumnModel().getColumn(1).setResizable(false);
+            jtListaTipos.getColumnModel().getColumn(1).setPreferredWidth(500);
         }
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
@@ -171,7 +166,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
         try {
             regrasTipo.cadastrarTipo(tipo);
         } catch (Exception ex) {
-           // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
         }
         carregarTipos();
         limparCampos();
@@ -196,7 +191,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
             dadosTipo.removerTipo(tipo);
 
         } catch (Exception ex) {
-           // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
         }
         limparCampos();
         carregarTipos();
@@ -256,7 +251,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
             jtListaTipos.setModel(modelo);
 
         } catch (Exception ex) {
-           // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(TelaCadastraTipos.class.getName()).log(Level.SEVERE, null, ex);
 
         }
 
@@ -269,6 +264,7 @@ public class TelaCadastraTipos extends javax.swing.JFrame {
         jtfDescricao.setText("");
 
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBCadastrar;

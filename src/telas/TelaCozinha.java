@@ -3,9 +3,6 @@ package telas;
 import atendente.Atendente;
 import atendente.DadosAtendente;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import pedido.DadosPedido;
@@ -24,7 +21,7 @@ public class TelaCozinha extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         carregarPedidos();
         atualizarAtendentes();
-        
+
         //Coloca as descrições sob os icones na tela principal.
         jbIncluirChef.setVerticalTextPosition(SwingConstants.BOTTOM);
         jbIncluirChef.setHorizontalTextPosition(SwingConstants.CENTER);
@@ -47,8 +44,6 @@ public class TelaCozinha extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTableConzinha = new javax.swing.JTable();
         jbCancelarPedido = new javax.swing.JButton();
         jbPedidoEntregue = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -56,6 +51,10 @@ public class TelaCozinha extends javax.swing.JFrame {
         jbIncluirChef = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtAtendentes = new javax.swing.JTable();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTableConzinha = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("COZINHA");
@@ -65,46 +64,8 @@ public class TelaCozinha extends javax.swing.JFrame {
         jPanel1.setForeground(new java.awt.Color(204, 204, 204));
         jPanel1.setName("CONZINHA"); // NOI18N
 
-        jTableConzinha.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Código", "Quant.", "Descrição", "Cliente", "Atendente", "Status"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(jTableConzinha);
-        if (jTableConzinha.getColumnModel().getColumnCount() > 0) {
-            jTableConzinha.getColumnModel().getColumn(0).setMinWidth(5);
-            jTableConzinha.getColumnModel().getColumn(0).setPreferredWidth(5);
-            jTableConzinha.getColumnModel().getColumn(0).setMaxWidth(5);
-            jTableConzinha.getColumnModel().getColumn(1).setResizable(false);
-            jTableConzinha.getColumnModel().getColumn(1).setPreferredWidth(30);
-            jTableConzinha.getColumnModel().getColumn(2).setResizable(false);
-            jTableConzinha.getColumnModel().getColumn(2).setPreferredWidth(200);
-            jTableConzinha.getColumnModel().getColumn(3).setResizable(false);
-            jTableConzinha.getColumnModel().getColumn(3).setPreferredWidth(150);
-            jTableConzinha.getColumnModel().getColumn(4).setResizable(false);
-            jTableConzinha.getColumnModel().getColumn(4).setPreferredWidth(100);
-        }
-
         jbCancelarPedido.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-cancelar-34.png"))); // NOI18N
-        jbCancelarPedido.setText("CANCELAR");
+        jbCancelarPedido.setText("CANCELAR PEDIDO");
         jbCancelarPedido.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbCancelarPedidoActionPerformed(evt);
@@ -129,9 +90,8 @@ public class TelaCozinha extends javax.swing.JFrame {
             }
         });
 
-        jbIncluirChef.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jbIncluirChef.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-cozinheiro-48.png"))); // NOI18N
-        jbIncluirChef.setText("INCLUIR CHEF");
+        jbIncluirChef.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lanchonete/imagens/icons8-voltar-48.png"))); // NOI18N
+        jbIncluirChef.setText("INCLUIR");
         jbIncluirChef.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbIncluirChefActionPerformed(evt);
@@ -143,11 +103,11 @@ public class TelaCozinha extends javax.swing.JFrame {
 
             },
             new String [] {
-                "MATRICULA", "NOME CHEF"
+                "NOME CHEF"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -156,13 +116,44 @@ public class TelaCozinha extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jtAtendentes);
         if (jtAtendentes.getColumnModel().getColumnCount() > 0) {
-            jtAtendentes.getColumnModel().getColumn(0).setMinWidth(100);
-            jtAtendentes.getColumnModel().getColumn(0).setPreferredWidth(100);
-            jtAtendentes.getColumnModel().getColumn(0).setMaxWidth(100);
-            jtAtendentes.getColumnModel().getColumn(1).setMinWidth(1000);
-            jtAtendentes.getColumnModel().getColumn(1).setPreferredWidth(1000);
-            jtAtendentes.getColumnModel().getColumn(1).setMaxWidth(1000);
+            jtAtendentes.getColumnModel().getColumn(0).setMinWidth(1000);
+            jtAtendentes.getColumnModel().getColumn(0).setPreferredWidth(1000);
+            jtAtendentes.getColumnModel().getColumn(0).setMaxWidth(1000);
         }
+
+        jLabel1.setBackground(new java.awt.Color(0, 255, 102));
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("LISTA DE PEDIDOS");
+
+        jTableConzinha.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Cód.", "Quant", "Cliente", "Descrição", "Obs.", "Hora", "Atendente", "Status"
+            }
+        ));
+        jScrollPane3.setViewportView(jTableConzinha);
+        if (jTableConzinha.getColumnModel().getColumnCount() > 0) {
+            jTableConzinha.getColumnModel().getColumn(0).setResizable(false);
+            jTableConzinha.getColumnModel().getColumn(0).setPreferredWidth(5);
+        }
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1149, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -170,58 +161,66 @@ public class TelaCozinha extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jbCancelarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jbPedidoPronto, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jbPedidoEntregue, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(503, 503, 503)
-                                .addComponent(jLabel2))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jbIncluirChef, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jbPedidoPronto, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                    .addComponent(jbPedidoEntregue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(jbCancelarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1095, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbIncluirChef, javax.swing.GroupLayout.PREFERRED_SIZE, 90, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbCancelarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(9, 9, 9))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(80, 80, 80)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jbIncluirChef, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jbPedidoPronto, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)
-                                .addComponent(jbPedidoEntregue, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addGap(197, 197, 197)
+                                .addComponent(jbIncluirChef, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbCancelarPedido, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbPedidoPronto, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbPedidoEntregue, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -256,7 +255,7 @@ public class TelaCozinha extends javax.swing.JFrame {
 
         int linha = jTableConzinha.getSelectedRow();
         pedido.setCod_pedido((int) jTableConzinha.getValueAt(linha, 0));
-        
+
         try {
             dadosPedido.removerPedido(pedido);
             carregarPedidos();
@@ -286,11 +285,11 @@ public class TelaCozinha extends javax.swing.JFrame {
             pedido.setAtendente(at);
 
             dadosPedido.atualizarAtendente(pedido);
-            
+
         } catch (Exception ex) {
             //Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         atualizarAtendentes();
         carregarPedidos();
 
@@ -315,7 +314,7 @@ public class TelaCozinha extends javax.swing.JFrame {
             carregarPedidos();
 
         } catch (Exception ex) {
-           // Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(TelaCozinha.class.getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -377,13 +376,13 @@ public class TelaCozinha extends javax.swing.JFrame {
             ArrayList<Pedido> listaPedidos = dadosPedidos.pesquisarPedidoClientePendentes();
 
             DefaultTableModel modelo = new DefaultTableModel();
-            modelo.setColumnIdentifiers(new Object[]{"Código", "Quant.", "Nome", "Descrição", "Atendente", "Status"});
+            modelo.setColumnIdentifiers(new Object[]{"Código", "Quant.", "Cliente", "Descrição", "Obs.", "Hora", "Atendente", "Status"});
             for (Pedido pedido : listaPedidos) {
-                modelo.addRow(new Object[]{pedido.getCod_pedido(), pedido.getQuantidade(), pedido.getCliente().getNome(), pedido.getProduto().getNome(), pedido.getAtendente().getNome(), pedido.getStatus()});
+                modelo.addRow(new Object[]{pedido.getCod_pedido(), pedido.getQuantidade(), pedido.getCliente().getNome(), pedido.getProduto().getNome(), pedido.getObservacao(), pedido.getHora(), pedido.getAtendente().getNome(), pedido.getStatus()});
             }
             jTableConzinha.setModel(modelo);
         } catch (Exception e) {
-           // JOptionPane.showMessageDialog(this, e.getMessage());
+            // JOptionPane.showMessageDialog(this, e.getMessage());
         }
     }
 
@@ -403,7 +402,9 @@ public class TelaCozinha extends javax.swing.JFrame {
             DefaultTableModel modelo = new DefaultTableModel();
             modelo.setColumnIdentifiers(new Object[]{"MATRÍCULA", "NOME CHEF"});
             for (Atendente a : listaAtendentes) {
-                modelo.addRow(new Object[]{a.getMatricula(), a.getNome()});
+                if (a.getMatricula() != 1) { //Esse if evita que o usuário "sem atendente" seja mostrado na lista de atendentes.
+                    modelo.addRow(new Object[]{a.getMatricula(), a.getNome()});
+                }
             }
             jtAtendentes.setModel(modelo);
         } catch (Exception e) {
@@ -414,10 +415,12 @@ public class TelaCozinha extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTable jTableConzinha;
     private javax.swing.JButton jbCancelarPedido;
     private javax.swing.JButton jbIncluirChef;
