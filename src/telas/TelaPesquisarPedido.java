@@ -36,10 +36,10 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jbPesquisar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jtfNome = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jtPesquisaIndividual = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
+        jtfNome = new javax.swing.JFormattedTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("ACOMPANHAR PEDIDOS");
@@ -52,7 +52,7 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CÓDIGO", "NOME", "DATA", "HORA", "CLIENTE", "STATUS"
+                "CÓDIGO", "NOME", "HORA", "CLIENTE", "STATUS"
             }
         ));
         jtPedidos.setName("LISTA DE PEDIDOS"); // NOI18N
@@ -61,9 +61,9 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
             jtPedidos.getColumnModel().getColumn(0).setMinWidth(110);
             jtPedidos.getColumnModel().getColumn(0).setPreferredWidth(110);
             jtPedidos.getColumnModel().getColumn(0).setMaxWidth(110);
-            jtPedidos.getColumnModel().getColumn(5).setMinWidth(200);
-            jtPedidos.getColumnModel().getColumn(5).setPreferredWidth(200);
-            jtPedidos.getColumnModel().getColumn(5).setMaxWidth(200);
+            jtPedidos.getColumnModel().getColumn(4).setMinWidth(200);
+            jtPedidos.getColumnModel().getColumn(4).setPreferredWidth(200);
+            jtPedidos.getColumnModel().getColumn(4).setMaxWidth(200);
         }
 
         jPanel2.setBackground(new java.awt.Color(153, 153, 153));
@@ -100,6 +100,13 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("RESULTADO DA PESQUISA PARA O NOME DIGITADO");
 
+        try {
+            jtfNome.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("###.###.###-##")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
+        jtfNome.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -108,13 +115,13 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2)
+                    .addComponent(jbPesquisar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 56, Short.MAX_VALUE))
-                    .addComponent(jtfNome)
-                    .addComponent(jbPesquisar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jtfNome))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -123,10 +130,10 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
                 .addGap(48, 48, 48)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jtfNome, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jbPesquisar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -226,9 +233,9 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
             ArrayList<Pedido> listaPedidos = dadosPedidos.pesquisarPedidoClientePendentes();
 
             DefaultTableModel modelo = new DefaultTableModel();
-            modelo.setColumnIdentifiers(new Object[]{"CÓDIGO", "NOME", "DATA", "HORA", "CLIENTE", "STATUS"});
+            modelo.setColumnIdentifiers(new Object[]{"CÓDIGO", "NOME", "HORA", "CLIENTE", "STATUS"});
             for (Pedido pedido : listaPedidos) {
-                modelo.addRow(new Object[]{pedido.getCod_pedido(), pedido.getProduto().getNome(),pedido.getData(), pedido.getHora() , pedido.getCliente().getNome(), pedido.getStatus()});
+                modelo.addRow(new Object[]{pedido.getCod_pedido(), pedido.getProduto().getNome(), pedido.getHora() , pedido.getCliente().getNome(), pedido.getStatus()});
             }
             jtPedidos.setModel(modelo);
         } catch (Exception e) {
@@ -248,6 +255,6 @@ public class TelaPesquisarPedido extends javax.swing.JFrame {
     private javax.swing.JButton jbPesquisar;
     private javax.swing.JTable jtPedidos;
     private javax.swing.JTable jtPesquisaIndividual;
-    private javax.swing.JTextField jtfNome;
+    private javax.swing.JFormattedTextField jtfNome;
     // End of variables declaration//GEN-END:variables
 }

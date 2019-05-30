@@ -29,7 +29,7 @@ foreign key(fk_cod_tipo) references Tipo(pk_cod_tipo)
 CREATE TABLE Pedido(
 pk_cod_pedido INT PRIMARY KEY AUTO_INCREMENT,
 data DATE,
-hora TIME,
+hora VARCHAR(200),
 statusp VARCHAR(200),
 observacao VARCHAR(200),
 valorAtual FLOAT,
@@ -63,7 +63,4 @@ INSERT INTO  Produto (pk_cod_produto, nome, disponibilidade, valor_unitario, fk_
 INSERT INTO  Produto (pk_cod_produto, nome, disponibilidade, valor_unitario, fk_cod_tipo) VALUES ('10', 'Cochinha', 'Sim', '1.00', '5');
 
 
-INSERT INTO  Atendente (nome) VALUES ('**SEM ATENDENTE**');
-INSERT INTO  Atendente (nome) VALUES ('Luiz');
-INSERT INTO  Atendente (nome) VALUES ('Maria');
-INSERT INTO  Atendente (nome) VALUES ('Julia');
+
